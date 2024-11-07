@@ -1,5 +1,11 @@
-#include "DxLib.h"
+/*
+*
+* Commnet
+*
+*/
 #include "GameMain.h"
+#include "DxLib.h"
+
 
 namespace {
 // ‰æ–Êİ’è
