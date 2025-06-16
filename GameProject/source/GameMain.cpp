@@ -8,50 +8,50 @@
 #include "nlohmann/json.hpp"
 
 namespace {
-constexpr auto DISP_W = 1280;  // 画面の横解像度
-constexpr auto DISP_H = 720;   // 画面の縦解像度
-constexpr auto ENEMY_NUM = 30;
+    constexpr auto DISP_W = 1280;  // 画面の横解像度
+    constexpr auto DISP_H = 720;   // 画面の縦解像度
+    constexpr auto ENEMY_NUM = 30;
 
-constexpr auto PauseX = 550;
-constexpr auto PauseY = 250;
-constexpr auto SaveX = 550;
-constexpr auto SaveY = 350;
-constexpr auto LoadX = 550;
-constexpr auto LoadY = 450;
+    constexpr auto PauseX = 550;
+    constexpr auto PauseY = 250;
+    constexpr auto SaveX = 550;
+    constexpr auto SaveY = 350;
+    constexpr auto LoadX = 550;
+    constexpr auto LoadY = 450;
 
-constexpr auto PauseText = _T("PAUSE");
-constexpr auto SaveText = _T("Save");
-constexpr auto LoadText = _T("Load");
+    constexpr auto PauseText = _T("PAUSE");
+    constexpr auto SaveText = _T("Save");
+    constexpr auto LoadText = _T("Load");
 
-const auto PauseColor = GetColor(0, 0, 255);
-const auto MenuColor = GetColor(128, 128, 128);
-const auto SelectColor = GetColor(196, 196, 64);
+    const auto PauseColor = GetColor(0, 0, 255);
+    const auto MenuColor = GetColor(128, 128, 128);
+    const auto SelectColor = GetColor(196, 196, 64);
 
-// 基底クラスの情報を保存する
-// 基底クラスという事は、全クラスで共通なので処理を関数化
-void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
-    json["x"] = objectBase->GetX();
-    json["y"] = objectBase->GetY();
-    json["w"] = objectBase->GetW();
-    json["h"] = objectBase->GetH();
-}
+    // 基底クラスの情報を保存する
+    // 基底クラスという事は、全クラスで共通なので処理を関数化
+    void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
+        json["x"] = objectBase->GetX();
+        json["y"] = objectBase->GetY();
+        json["w"] = objectBase->GetW();
+        json["h"] = objectBase->GetH();
+    }
 
-// 基底クラスの情報を読み込む
-// 基底クラスという事は、全クラスで共通なので処理を関数化
-void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
-    int x, y, w, h;
+    // 基底クラスの情報を読み込む
+    // 基底クラスという事は、全クラスで共通なので処理を関数化
+    void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
+        int x, y, w, h;
 
-    json.at(_T("x")).get_to(x);
-    json.at(_T("y")).get_to(y);
-    json.at(_T("w")).get_to(w);
-    json.at(_T("h")).get_to(h);
+        json.at(_T("x")).get_to(x);
+        json.at(_T("y")).get_to(y);
+        json.at(_T("w")).get_to(w);
+        json.at(_T("h")).get_to(h);
 
-    objectBase->SetX(x);
-    objectBase->SetY(y);
-    objectBase->SetW(w);
-    objectBase->SetH(h);
-}
-}  // namespace
+        objectBase->SetX(x);
+        objectBase->SetY(y);
+        objectBase->SetW(w);
+        objectBase->SetH(h);
+    }
+} // namespace
 
 GameMain::GameMain() {
     inputKey = 0;
@@ -81,8 +81,7 @@ void GameMain::Create() {
     cgBullet = LoadGraph(_T("res/Bullet_player.png"));
 
     // std::vector は動的に要素を追加できる
-    objectList.emplace_back(
-        new Player(DISP_W, DISP_H, cgBullet, _T("res/player00.png")));
+    objectList.emplace_back(new Player(DISP_W, DISP_H, cgBullet, _T("res/player00.png")));
 
     cgEnemy = LoadGraph(_T("res/enemy_a00.png"));
 
@@ -111,7 +110,7 @@ void GameMain::Init() {
     // & は C++ の参照渡し。参照渡しを使うと、配列の要素を直接操作できる
     for (auto& object : objectList) {
         // この動作がポリモーフィズムの特徴
-        object->Init();  // new したクラスの Init メソッドになる
+        object->Init(); // new したクラスの Init メソッドになる
     }
 
     SetupScore();
@@ -121,7 +120,7 @@ void GameMain::Input() {
     // キーの入力、トリガ入力を得る
     int keyOld = inputKey;
 
-    inputKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);  // キー入力を取得
+    inputKey = GetJoypadInputState(DX_INPUT_KEY_PAD1); // キー入力を取得
     // キーのトリガ情報生成（押した瞬間しか反応しないキー情報）
     inputTrg = (inputKey ^ keyOld) & inputKey;
 }
@@ -162,8 +161,7 @@ bool GameMain::Process() {
 
     // この動作がポリモーフィズムの特徴
     for (auto& object : objectList) {
-        object->Process(inputKey,
-                        inputTrg);  // new したクラスの Process メソッドになる
+        object->Process(inputKey, inputTrg); // new したクラスの Process メソッドになる
     }
 
     // プレイヤーと敵の当たり処理
@@ -178,7 +176,7 @@ bool GameMain::Process() {
 void GameMain::Draw() {
     // この動作がポリモーフィズムの特徴
     for (auto& object : objectList) {
-        object->Draw();  // new したクラスの Draw メソッドになる
+        object->Draw(); // new したクラスの Draw メソッドになる
     }
 
     if (isPause) {
@@ -186,10 +184,8 @@ void GameMain::Draw() {
 
         SetFontSize(64);
         DrawString(PauseX, PauseY, PauseText, PauseColor);
-        DrawString(SaveX, SaveY, SaveText,
-                   isSelectSave ? SelectColor : MenuColor);
-        DrawString(LoadX, LoadY, LoadText,
-                   isSelectSave ? MenuColor : SelectColor);
+        DrawString(SaveX, SaveY, SaveText, isSelectSave ? SelectColor : MenuColor);
+        DrawString(LoadX, LoadY, LoadText, isSelectSave ? MenuColor : SelectColor);
         SetFontSize(orignalSize);
     }
 }
@@ -199,14 +195,14 @@ void GameMain::Draw() {
 bool GameMain::IsHitBox(const int x1,
                         const int y1,
                         const int w1,
-                        const int h1,  // ひとつめのbox 左上(x,y), 大きさw,h
+                        const int h1, // ひとつめのbox 左上(x,y), 大きさw,h
                         const int x2,
                         const int y2,
                         const int w2,
                         const int h2  // ふたつめのbox 左上(x,y), 大きさw,h
 ) const {
-    if (x1 < x2 + w2 && x2 < x1 + w1     // x方向の判定
-        && y1 < y2 + h2 && y2 < y1 + h1  // y方向の判定
+    if (x1 < x2 + w2 && x2 < x1 + w1    // x方向の判定
+        && y1 < y2 + h2 && y2 < y1 + h1 // y方向の判定
     ) {
         // 2つのboxは当たっている
         return true;
@@ -262,10 +258,8 @@ void GameMain::HitCheckPlayerEnemy(Player* player) const {
         }
 
         // プレイヤーと敵の当たり判定
-        if (IsHitBox(player->GetX(), player->GetY(), player->GetW(),
-                     player->GetH(),  // プレイヤーを囲むBox
-                     enemy->GetX(), enemy->GetY(), enemy->GetW(),
-                     enemy->GetH()  // 敵[i]を囲むBox
+        if (IsHitBox(player->GetX(), player->GetY(), player->GetW(), player->GetH(), // プレイヤーを囲むBox
+                     enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH()      // 敵[i]を囲むBox
                      ) != false) {
             // 当たった
             enemy->SetUse(false);  // この敵を消す
@@ -299,10 +293,8 @@ void GameMain::HitCheckEnemyPlayerBullet(Player* player) const {
                 continue;
             }
 
-            if (IsHitBox(enemy->GetX(), enemy->GetY(), enemy->GetW(),
-                         enemy->GetH(),  // 敵[i]を囲むBox
-                         bt->GetX(), bt->GetY(), bt->GetW(),
-                         bt->GetH()  // 弾[j]を囲むBox
+            if (IsHitBox(enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH(), // 敵[i]を囲むBox
+                         bt->GetX(), bt->GetY(), bt->GetW(), bt->GetH()              // 弾[j]を囲むBox
                          ) != false) {
                 // 当たった
                 enemy->SetUse(false);  // この敵を消す
@@ -459,7 +451,7 @@ void GameMain::Load() {
     auto player = LoadPlayer();
 
     if (player == nullptr) {
-        return;  // Player のセーブデータがない(以降の処理もしない)
+        return; // Player のセーブデータがない(以降の処理もしない)
     }
 
     auto enemyList = LoadEnemyList();

@@ -1,10 +1,10 @@
 #include "Bullet.h"
 
 namespace {
-constexpr auto BULLET_WIDTH = 8;
-constexpr auto BULLET_HEIGHT = 16;
-constexpr auto BULLET_SPEED_Y = 16;
-}  // namespace
+    constexpr auto BULLET_WIDTH = 8;
+    constexpr auto BULLET_HEIGHT = 16;
+    constexpr auto BULLET_SPEED_Y = 16;
+} // namespace
 
 Bullet::Bullet(const int cgHandle) : ObjectBase() {
     use = false;

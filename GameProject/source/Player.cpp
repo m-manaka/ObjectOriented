@@ -2,18 +2,17 @@
 #include "DxLib.h"
 
 namespace {
-constexpr auto PLAYER_WIDTH = 48;
-constexpr auto PLAYER_HEIGHT = 48;
-constexpr auto PLAYER_SPEED = 8;
-constexpr auto PLAYER_LIFE = 5;
-constexpr auto BULLET_MAX = 3;
-}  // namespace
+    constexpr auto PLAYER_WIDTH = 48;
+    constexpr auto PLAYER_HEIGHT = 48;
+    constexpr auto PLAYER_SPEED = 8;
+    constexpr auto PLAYER_LIFE = 5;
+    constexpr auto BULLET_MAX = 3;
+} // namespace
 
 Player::Player(const int width,
                const int height,
                const int cgBullet,
-               const TCHAR* fileName)
-    : ObjectBase(fileName) {
+               const TCHAR* fileName) : ObjectBase(fileName) {
     spd = 0;
     life = 0;
 
@@ -25,8 +24,7 @@ Player::Player(const int width,
     }
 }
 
-Player::Player(const int width, const int height, const int cgBullet)
-    : ObjectBase() {
+Player::Player(const int width, const int height, const int cgBullet) : ObjectBase() {
     spd = 0;
     life = 0;
 
@@ -39,7 +37,7 @@ Player::Player(const int width, const int height, const int cgBullet)
 }
 
 Player::~Player() {
-    for (auto& bt : bullet) {
+    for (auto&& bt : bullet) {
         delete bt;
     }
 
@@ -103,8 +101,8 @@ void Player::Draw() {
 }
 
 void Player::SetDamage() {
-    y = screenHeight - h;  // 下端に移動
-    life--;                // ライフを減らす
+    y = screenHeight - h; // 下端に移動
+    life--;               // ライフを減らす
 }
 
 void Player::AddPlayerBullet() {

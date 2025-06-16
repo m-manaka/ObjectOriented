@@ -2,7 +2,7 @@
 #include "ObjectBase.h"
 
 class Enemy : public ObjectBase {
-   public:
+public:
     Enemy(const int width, const int height, const int cgHandle);
     virtual ~Enemy();
 
@@ -19,7 +19,7 @@ class Enemy : public ObjectBase {
     void SetSpeedX(const int spd_x) { this->spd_x = spd_x; }
     void SetSpeedY(const int spd_y) { this->spd_y = spd_y; }
 
-   private:
+private:
     void InitPos();
 
     bool use;

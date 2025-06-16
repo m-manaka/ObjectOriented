@@ -4,7 +4,7 @@
 #include "ObjectBase.h"
 
 class Player : public ObjectBase {
-   public:
+public:
     Player(const int width,
            const int height,
            const int cgBullet,
@@ -26,7 +26,7 @@ class Player : public ObjectBase {
 
     std::vector<Bullet*>& GetBullet() { return bullet; }
 
-   private:
+private:
     void AddPlayerBullet();
 
     int spd;

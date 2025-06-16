@@ -2,12 +2,12 @@
 #include <vector>
 #include "ObjectBase.h"
 
-class Player;  // 前方宣言
-class Enemy;   // 前方宣言
-class Score;   // 前方宣言
+class Player; // 前方宣言
+class Enemy;  // 前方宣言
+class Score;  // 前方宣言
 
 class GameMain {
-   public:
+public:
     GameMain();
     virtual ~GameMain();
 
@@ -16,7 +16,7 @@ class GameMain {
     bool Process();
     void Draw();
 
-   private:
+private:
     void Save() const;
     void SavePlayer(const Player* player) const;
     void SaveEnemyList(const std::vector<Enemy*> enemyList) const;

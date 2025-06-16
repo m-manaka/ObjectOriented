@@ -4,7 +4,7 @@
 class Player;  // ‘O•ûéŒ¾
 
 class Score : public ObjectBase {
-   public:
+public:
     Score();
     virtual ~Score();
 
@@ -14,7 +14,7 @@ class Score : public ObjectBase {
     int GetScore() const { return score; }
     void SetPlayer(Player* player) { this->player = player; }
 
-   private:
+private:
     int score;
     Player* player;
 };

@@ -3,7 +3,7 @@
 
 // 背景画像をロードして描画だけするクラス
 class BackGround : public ObjectBase {
-   public:
+public:
     BackGround(const TCHAR* fileName);
     virtual ~BackGround();
 };

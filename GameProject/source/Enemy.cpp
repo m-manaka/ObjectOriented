@@ -2,14 +2,13 @@
 #include "DxLib.h"
 
 namespace {
-constexpr auto ENEMY_WIDTH = 32;
-constexpr auto ENEMY_HEIGHT = 32;
-constexpr auto ENEMY_SPEED_X = 8;
-constexpr auto ENEMY_SPEED_Y = 4;
-}  // namespace
+    constexpr auto ENEMY_WIDTH = 32;
+    constexpr auto ENEMY_HEIGHT = 32;
+    constexpr auto ENEMY_SPEED_X = 8;
+    constexpr auto ENEMY_SPEED_Y = 4;
+} // namespace
 
-Enemy::Enemy(const int width, const int height, const int cgHandle)
-    : ObjectBase() {
+Enemy::Enemy(const int width, const int height, const int cgHandle) : ObjectBase() {
     use = false;
     spd_x = 0;
     spd_y = 0;

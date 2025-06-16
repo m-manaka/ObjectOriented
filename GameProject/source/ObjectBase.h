@@ -3,19 +3,16 @@
 
 // 本プログラムの全てのオブジェクトの基底クラス
 class ObjectBase {
-   public:
+public:
     ObjectBase();  // コンストラクタ
-    ObjectBase(
-        const TCHAR*
-            fileName);  // コンストラクタは引数を変えれば何個でも作成可能
+    // コンストラクタは引数を変えれば何個でも作成可能
+    ObjectBase(const TCHAR* fileName);
     virtual ~ObjectBase(); // デストラクタ
 
     virtual void Init();
     virtual void Load(const TCHAR* fileName);
-    virtual void Process(
-        const int key,
-        const int
-            trriger);  // 基本的に class でのメソッド引数には const をつける
+    // 基本的に class でのメソッド引数には const をつける
+    virtual void Process(const int key, const int trriger);
     virtual void Draw();
 
     int GetCgHandle() const { return cgHandle; }
@@ -34,9 +31,9 @@ class ObjectBase {
         this->cgHandleDeleteLock = cgHandleDeleteLock;
     }
 
-   protected:
+protected:
     // protected にして継承先クラスで使用可能にする
-    // 下記のメンバh変数が、今回の基底に相応しい種類と設計する
+    // 下記のメンバ変数が、今回の基底に相応しい種類と設計する
     int cgHandle;
     int x;
     int y;

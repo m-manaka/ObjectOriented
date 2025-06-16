@@ -2,7 +2,7 @@
 #include "ObjectBase.h"
 
 class Bullet : public ObjectBase {
-   public:
+public:
     Bullet(const int cgHandle);
     virtual ~Bullet();
 
@@ -17,7 +17,7 @@ class Bullet : public ObjectBase {
     int GetSpeedY() const { return spd_y; }
     void SetSpeedY(const int spd_y) { this->spd_y = spd_y; }
 
-   private:
+private:
     bool use;
     int spd_y;
 };
