@@ -399,4 +399,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+dxlib/
+
 GameProject/log.txt
