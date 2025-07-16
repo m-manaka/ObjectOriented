@@ -1,6 +1,6 @@
-#include "GameMain.h"
 #include <fstream>
 #include "nlohmann/json.hpp"
+module GameMain;
 import <tchar.h>;
 import <vector>;
 import ObjectBase;

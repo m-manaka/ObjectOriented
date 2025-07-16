@@ -4,7 +4,7 @@
 *
 */
 #include <Windows.h>; // WinMain
-#include "GameMain.h";
+import GameMain;
 import DxLibWrapper;
 
 namespace {

@@ -23,6 +23,7 @@
     <ClCompile Include="Bullet.ixx" />
     <ClCompile Include="DxLibWrapper.ixx" />
     <ClCompile Include="Enemy.ixx" />
+    <ClCompile Include="GameMain.ixx" />
     <ClCompile Include="ObjectBase.ixx" />
     <ClCompile Include="Player.ixx" />
     <ClCompile Include="Score.ixx" />
@@ -34,9 +35,6 @@
     <ClCompile Include="source\ObjectBase.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\Score.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\GameMain.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

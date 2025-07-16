@@ -1,5 +1,5 @@
+#include <stdlib.h>
 module Enemy;
-//import <stdlib.h>; // rand()
 import ObjectBase;
 import DxLibWrapper;
 
@@ -7,10 +7,6 @@ constexpr auto ENEMY_WIDTH = 32;
 constexpr auto ENEMY_HEIGHT = 32;
 constexpr auto ENEMY_SPEED_X = 8;
 constexpr auto ENEMY_SPEED_Y = 4;
-
-int rand() {
-    return 0;
-}
 
 Enemy::Enemy(const int width, const int height, const int cgHandle) : ObjectBase() {
     use = false;

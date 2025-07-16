@@ -63,10 +63,8 @@
     <ClCompile Include="Score.ixx">
       <Filter>モジュール</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\GameMain.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
+    <ClCompile Include="GameMain.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
