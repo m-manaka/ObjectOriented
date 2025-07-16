@@ -1,7 +1,7 @@
-#pragma once
-#include "ObjectBase.h"
+export module Bullet;
+import ObjectBase;
 
-class Bullet : public ObjectBase {
+export class Bullet : public ObjectBase {
 public:
     Bullet(const int cgHandle);
     virtual ~Bullet();

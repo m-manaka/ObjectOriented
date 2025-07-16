@@ -1,7 +1,7 @@
-#pragma once
-#include "ObjectBase.h"
+export module Enemy;
+import ObjectBase;
 
-class Enemy : public ObjectBase {
+export class Enemy : public ObjectBase {
 public:
     Enemy(const int width, const int height, const int cgHandle);
     virtual ~Enemy();
@@ -28,4 +28,5 @@ private:
 
     int screenWidth;
     int screenHeight;
-};
+}
+;

@@ -1,7 +1,8 @@
-#pragma once
-#include <tchar.h>
+export module ObjectBase;
 
-// 本プログラムの全てのオブジェクトの基底クラス
+import <tchar.h>;
+
+export // 本プログラムの全てのオブジェクトの基底クラス
 class ObjectBase {
 public:
     ObjectBase();  // コンストラクタ

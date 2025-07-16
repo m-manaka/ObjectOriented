@@ -1,10 +1,9 @@
-#include "Bullet.h"
+module Bullet;
+import ObjectBase;
 
-namespace {
-    constexpr auto BULLET_WIDTH = 8;
-    constexpr auto BULLET_HEIGHT = 16;
-    constexpr auto BULLET_SPEED_Y = 16;
-} // namespace
+constexpr auto BULLET_WIDTH = 8;
+constexpr auto BULLET_HEIGHT = 16;
+constexpr auto BULLET_SPEED_Y = 16;
 
 Bullet::Bullet(const int cgHandle) : ObjectBase() {
     use = false;
@@ -16,13 +15,13 @@ Bullet::Bullet(const int cgHandle) : ObjectBase() {
 Bullet::~Bullet() {}
 
 void Bullet::Process(const int key, const int trriger) {
-    // MovePlayerBullet ‚É‘Š“–
-    // ‚±‚Ì’e‚Íg—p’†‚©H
+    // MovePlayerBullet ã«ç›¸å½“
+    // ã“ã®å¼¾ã¯ä½¿ç”¨ä¸­ã‹ï¼Ÿ
     if (use == true) {
-        // ‰æ–Êã•ûŒü‚ÖˆÚ“®
+        // ç”»é¢ä¸Šæ–¹å‘ã¸ç§»å‹•
         y -= spd_y;
 
-        // ‰æ–Êã‚©‚çÁ‚¦‚½‚©H
+        // ç”»é¢ä¸Šã‹ã‚‰æ¶ˆãˆãŸã‹ï¼Ÿ
         if (y + h < 0) {
             use = false;
         }
@@ -30,7 +29,7 @@ void Bullet::Process(const int key, const int trriger) {
 }
 
 void Bullet::Draw() {
-    // ‚±‚Ì’e‚Íg—p’†‚©H
+    // ã“ã®å¼¾ã¯ä½¿ç”¨ä¸­ã‹ï¼Ÿ
     if (use == false) {
         return;
     }
@@ -39,7 +38,7 @@ void Bullet::Draw() {
 }
 
 void Bullet::Set(const int x, const int y) {
-    // g‚Á‚Ä‚¢‚È‚¢B‚±‚±‚ğg‚¤
+    // ä½¿ã£ã¦ã„ãªã„ã€‚ã“ã“ã‚’ä½¿ã†
     use = true;
     w = BULLET_WIDTH;
     h = BULLET_HEIGHT;

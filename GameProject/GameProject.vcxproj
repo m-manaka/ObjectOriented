@@ -19,6 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.ixx" />
+    <ClCompile Include="Bullet.ixx" />
+    <ClCompile Include="DxLibWrapper.ixx" />
+    <ClCompile Include="Enemy.ixx" />
+    <ClCompile Include="ObjectBase.ixx" />
+    <ClCompile Include="Player.ixx" />
+    <ClCompile Include="Score.ixx" />
     <ClCompile Include="source\BackGround.cpp" />
     <ClCompile Include="source\Bullet.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
@@ -29,13 +36,7 @@
     <ClCompile Include="source\Score.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\BackGround.h" />
-    <ClInclude Include="source\Bullet.h" />
-    <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\GameMain.h" />
-    <ClInclude Include="source\ObjectBase.h" />
-    <ClInclude Include="source\Player.h" />
-    <ClInclude Include="source\Score.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -117,6 +118,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)dxlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,6 +136,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)dxlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +154,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)dxlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -168,6 +172,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)dxlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

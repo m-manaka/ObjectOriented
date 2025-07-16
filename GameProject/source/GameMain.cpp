@@ -1,15 +1,18 @@
 #include "GameMain.h"
 #include <fstream>
-#include "BackGround.h"
-#include "DxLib.h"
-#include "Enemy.h"
-#include "Player.h"
-#include "Score.h"
 #include "nlohmann/json.hpp"
+import <tchar.h>;
+import <vector>;
+import ObjectBase;
+import BackGround;
+import Enemy;
+import Player;
+import Score;
+import DxLibWrapper;
 
 namespace {
-    constexpr auto DISP_W = 1280;  // ‰æ–Ê‚Ì‰¡‰ğ‘œ“x
-    constexpr auto DISP_H = 720;   // ‰æ–Ê‚Ìc‰ğ‘œ“x
+    constexpr auto DISP_W = 1280;  // ç”»é¢ã®æ¨ªè§£åƒåº¦
+    constexpr auto DISP_H = 720;   // ç”»é¢ã®ç¸¦è§£åƒåº¦
     constexpr auto ENEMY_NUM = 30;
 
     constexpr auto PauseX = 550;
@@ -23,12 +26,12 @@ namespace {
     constexpr auto SaveText = _T("Save");
     constexpr auto LoadText = _T("Load");
 
-    const auto PauseColor = GetColor(0, 0, 255);
-    const auto MenuColor = GetColor(128, 128, 128);
-    const auto SelectColor = GetColor(196, 196, 64);
+    const auto PauseColor = DW::GetColor(0, 0, 255);
+    const auto MenuColor = DW::GetColor(128, 128, 128);
+    const auto SelectColor = DW::GetColor(196, 196, 64);
 
-    // Šî’êƒNƒ‰ƒX‚Ìî•ñ‚ğ•Û‘¶‚·‚é
-    // Šî’êƒNƒ‰ƒX‚Æ‚¢‚¤–‚ÍA‘SƒNƒ‰ƒX‚Å‹¤’Ê‚È‚Ì‚Åˆ—‚ğŠÖ”‰»
+    // åŸºåº•ã‚¯ãƒ©ã‚¹ã®æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹
+    // åŸºåº•ã‚¯ãƒ©ã‚¹ã¨ã„ã†äº‹ã¯ã€å…¨ã‚¯ãƒ©ã‚¹ã§å…±é€šãªã®ã§å‡¦ç†ã‚’é–¢æ•°åŒ–
     void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
         json["x"] = objectBase->GetX();
         json["y"] = objectBase->GetY();
@@ -36,8 +39,8 @@ namespace {
         json["h"] = objectBase->GetH();
     }
 
-    // Šî’êƒNƒ‰ƒX‚Ìî•ñ‚ğ“Ç‚İ‚Ş
-    // Šî’êƒNƒ‰ƒX‚Æ‚¢‚¤–‚ÍA‘SƒNƒ‰ƒX‚Å‹¤’Ê‚È‚Ì‚Åˆ—‚ğŠÖ”‰»
+    // åŸºåº•ã‚¯ãƒ©ã‚¹ã®æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
+    // åŸºåº•ã‚¯ãƒ©ã‚¹ã¨ã„ã†äº‹ã¯ã€å…¨ã‚¯ãƒ©ã‚¹ã§å…±é€šãªã®ã§å‡¦ç†ã‚’é–¢æ•°åŒ–
     void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
         int x, y, w, h;
 
@@ -72,18 +75,18 @@ GameMain::~GameMain() {
 }
 
 void GameMain::Create() {
-    // emplace_back() std::vector ‚É—v‘f‚ğ’Ç‰Á‚·‚éƒƒ\ƒbƒh
-    // ObjectBase* (Šî’êƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^)Œ^‚É‘Î‚µ‚ÄA”h¶æ‚ÌƒNƒ‰ƒX‚Å new
-    // ‚ªo—ˆ‚é‚Ì‚ªƒ|ƒŠƒ‚[ƒtƒBƒYƒ€‚Ì“Á’¥
+    // emplace_back() std::vector ã«è¦ç´ ã‚’è¿½åŠ ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+    // ObjectBase* (åŸºåº•ã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿)å‹ã«å¯¾ã—ã¦ã€æ´¾ç”Ÿå…ˆã®ã‚¯ãƒ©ã‚¹ã§ new
+    // ãŒå‡ºæ¥ã‚‹ã®ãŒãƒãƒªãƒ¢ãƒ¼ãƒ•ã‚£ã‚ºãƒ ã®ç‰¹å¾´
     objectList.emplace_back(new BackGround(_T("res/bg_space.png")));
 
-    // “¯‚¶‰æ‘œ‚ğ‰½“x‚àƒ[ƒh‚µ‚È‚¢—l‚É‚·‚é
-    cgBullet = LoadGraph(_T("res/Bullet_player.png"));
+    // åŒã˜ç”»åƒã‚’ä½•åº¦ã‚‚ãƒ­ãƒ¼ãƒ‰ã—ãªã„æ§˜ã«ã™ã‚‹
+    cgBullet = DW::LoadGraph(_T("res/Bullet_player.png"));
 
-    // std::vector ‚Í“®“I‚É—v‘f‚ğ’Ç‰Á‚Å‚«‚é
+    // std::vector ã¯å‹•çš„ã«è¦ç´ ã‚’è¿½åŠ ã§ãã‚‹
     objectList.emplace_back(new Player(DISP_W, DISP_H, cgBullet, _T("res/player00.png")));
 
-    cgEnemy = LoadGraph(_T("res/enemy_a00.png"));
+    cgEnemy = DW::LoadGraph(_T("res/enemy_a00.png"));
 
     for (auto i = 0; i < ENEMY_NUM; ++i) {
         objectList.emplace_back(new Enemy(DISP_W, DISP_H, cgEnemy));
@@ -93,7 +96,7 @@ void GameMain::Create() {
 }
 
 void GameMain::SetupScore() {
-    // Playerclass ‚ÆScore class ‚Ìƒ|ƒCƒ“ƒ^‚ğˆµ‚¤
+    // Playerclass ã¨Score class ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ‰±ã†
     Player* player = GetPlayer();
     Score* score = GetScore();
 
@@ -105,44 +108,44 @@ void GameMain::SetupScore() {
 void GameMain::Init() {
     Create();
 
-    // ”ÍˆÍ for •¶
-    // ó‚¯‚é•Ï”‚Í auto ‚ÅA‰E•Ó‚ÌŒ^‚É‡‚í‚¹‚Ä•Ï”‚ÌŒ^‚ğ©“®‚É‚·‚é‚Æ•Ö—˜
-    // & ‚Í C++ ‚ÌQÆ“n‚µBQÆ“n‚µ‚ğg‚¤‚ÆA”z—ñ‚Ì—v‘f‚ğ’¼Ú‘€ì‚Å‚«‚é
+    // ç¯„å›² for æ–‡
+    // å—ã‘ã‚‹å¤‰æ•°ã¯ auto ã§ã€å³è¾ºã®å‹ã«åˆã‚ã›ã¦å¤‰æ•°ã®å‹ã‚’è‡ªå‹•ã«ã™ã‚‹ã¨ä¾¿åˆ©
+    // & ã¯ C++ ã®å‚ç…§æ¸¡ã—ã€‚å‚ç…§æ¸¡ã—ã‚’ä½¿ã†ã¨ã€é…åˆ—ã®è¦ç´ ã‚’ç›´æ¥æ“ä½œã§ãã‚‹
     for (auto& object : objectList) {
-        // ‚±‚Ì“®ì‚ªƒ|ƒŠƒ‚[ƒtƒBƒYƒ€‚Ì“Á’¥
-        object->Init(); // new ‚µ‚½ƒNƒ‰ƒX‚Ì Init ƒƒ\ƒbƒh‚É‚È‚é
+        // ã“ã®å‹•ä½œãŒãƒãƒªãƒ¢ãƒ¼ãƒ•ã‚£ã‚ºãƒ ã®ç‰¹å¾´
+        object->Init(); // new ã—ãŸã‚¯ãƒ©ã‚¹ã® Init ãƒ¡ã‚½ãƒƒãƒ‰ã«ãªã‚‹
     }
 
     SetupScore();
 }
 
 void GameMain::Input() {
-    // ƒL[‚Ì“ü—ÍAƒgƒŠƒK“ü—Í‚ğ“¾‚é
+    // ã‚­ãƒ¼ã®å…¥åŠ›ã€ãƒˆãƒªã‚¬å…¥åŠ›ã‚’å¾—ã‚‹
     int keyOld = inputKey;
 
-    inputKey = GetJoypadInputState(DX_INPUT_KEY_PAD1); // ƒL[“ü—Í‚ğæ“¾
-    // ƒL[‚ÌƒgƒŠƒKî•ñ¶¬i‰Ÿ‚µ‚½uŠÔ‚µ‚©”½‰‚µ‚È‚¢ƒL[î•ñj
+    inputKey = DW::GetJoypadInputState(DW::DW_INPUT_KEY_PAD1); // ã‚­ãƒ¼å…¥åŠ›ã‚’å–å¾—
+    // ã‚­ãƒ¼ã®ãƒˆãƒªã‚¬æƒ…å ±ç”Ÿæˆï¼ˆæŠ¼ã—ãŸç¬é–“ã—ã‹åå¿œã—ãªã„ã‚­ãƒ¼æƒ…å ±ï¼‰
     inputTrg = (inputKey ^ keyOld) & inputKey;
 }
 
 bool GameMain::Process() {
-    // ESC Key ‰Ÿ‚µ‚ÅƒQ[ƒ€I—¹
-    if (inputKey & PAD_INPUT_9) {
+    // ESC Key æŠ¼ã—ã§ã‚²ãƒ¼ãƒ çµ‚äº†
+    if (inputKey & DW::DW_PAD_INPUT_9) {
         return false;
     }
 
-    // Q Key ‰Ÿ‚µ‚Åƒ|[ƒY
-    if (inputTrg & PAD_INPUT_7) {
+    // Q Key æŠ¼ã—ã§ãƒãƒ¼ã‚º
+    if (inputTrg & DW::DW_PAD_INPUT_7) {
         isPause = !isPause;
     }
 
     if (isPause) {
-        if ((inputTrg & PAD_INPUT_UP) || (inputTrg & PAD_INPUT_DOWN)) {
+        if ((inputTrg & DW::DW_PAD_INPUT_UP) || (inputTrg & DW::DW_PAD_INPUT_DOWN)) {
             isSelectSave = !isSelectSave;
         }
 
-        // Space Key ‰Ÿ‚µ‚ÅŒˆ’è
-        if (inputTrg & PAD_INPUT_10) {
+        // Space Key æŠ¼ã—ã§æ±ºå®š
+        if (inputTrg & DW::DW_PAD_INPUT_10) {
             if (isSelectSave) {
                 Save();
             } else {
@@ -159,63 +162,63 @@ bool GameMain::Process() {
         return true;
     }
 
-    // ‚±‚Ì“®ì‚ªƒ|ƒŠƒ‚[ƒtƒBƒYƒ€‚Ì“Á’¥
+    // ã“ã®å‹•ä½œãŒãƒãƒªãƒ¢ãƒ¼ãƒ•ã‚£ã‚ºãƒ ã®ç‰¹å¾´
     for (auto& object : objectList) {
-        object->Process(inputKey, inputTrg); // new ‚µ‚½ƒNƒ‰ƒX‚Ì Process ƒƒ\ƒbƒh‚É‚È‚é
+        object->Process(inputKey, inputTrg); // new ã—ãŸã‚¯ãƒ©ã‚¹ã® Process ãƒ¡ã‚½ãƒƒãƒ‰ã«ãªã‚‹
     }
 
-    // ƒvƒŒƒCƒ„[‚Æ“G‚Ì“–‚½‚èˆ—
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨æ•µã®å½“ãŸã‚Šå‡¦ç†
     HitCheckPlayerEnemy(player);
 
-    // “G‚ÆƒvƒŒƒCƒ„[‚Ì’e‚Ì“–‚½‚èˆ—
+    // æ•µã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ã®å½“ãŸã‚Šå‡¦ç†
     HitCheckEnemyPlayerBullet(player);
 
     return true;
 }
 
 void GameMain::Draw() {
-    // ‚±‚Ì“®ì‚ªƒ|ƒŠƒ‚[ƒtƒBƒYƒ€‚Ì“Á’¥
+    // ã“ã®å‹•ä½œãŒãƒãƒªãƒ¢ãƒ¼ãƒ•ã‚£ã‚ºãƒ ã®ç‰¹å¾´
     for (auto& object : objectList) {
-        object->Draw(); // new ‚µ‚½ƒNƒ‰ƒX‚Ì Draw ƒƒ\ƒbƒh‚É‚È‚é
+        object->Draw(); // new ã—ãŸã‚¯ãƒ©ã‚¹ã® Draw ãƒ¡ã‚½ãƒƒãƒ‰ã«ãªã‚‹
     }
 
     if (isPause) {
-        auto orignalSize = GetFontSize();
+        auto orignalSize = DW::GetFontSize();
 
-        SetFontSize(64);
-        DrawString(PauseX, PauseY, PauseText, PauseColor);
-        DrawString(SaveX, SaveY, SaveText, isSelectSave ? SelectColor : MenuColor);
-        DrawString(LoadX, LoadY, LoadText, isSelectSave ? MenuColor : SelectColor);
-        SetFontSize(orignalSize);
+        DW::SetFontSize(64);
+        DW::DrawString(PauseX, PauseY, PauseText, PauseColor);
+        DW::DrawString(SaveX, SaveY, SaveText, isSelectSave ? SelectColor : MenuColor);
+        DW::DrawString(LoadX, LoadY, LoadText, isSelectSave ? MenuColor : SelectColor);
+        DW::SetFontSize(orignalSize);
     }
 }
 
-// “–‚½‚è”»’è—pB2‚Â‚Ìbox‚ª“–‚½‚Á‚½‚©‚ğ”»’è
-// “–‚½‚Á‚Ä‚¢‚½‚çtrue, “–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚çfalse‚ğ•Ô‚·
+// å½“ãŸã‚Šåˆ¤å®šç”¨ã€‚2ã¤ã®boxãŒå½“ãŸã£ãŸã‹ã‚’åˆ¤å®š
+// å½“ãŸã£ã¦ã„ãŸã‚‰true, å½“ãŸã£ã¦ã„ãªã‹ã£ãŸã‚‰falseã‚’è¿”ã™
 bool GameMain::IsHitBox(const int x1,
                         const int y1,
                         const int w1,
-                        const int h1, // ‚Ğ‚Æ‚Â‚ß‚Ìbox ¶ã(x,y), ‘å‚«‚³w,h
+                        const int h1, // ã²ã¨ã¤ã‚ã®box å·¦ä¸Š(x,y), å¤§ãã•w,h
                         const int x2,
                         const int y2,
                         const int w2,
-                        const int h2  // ‚Ó‚½‚Â‚ß‚Ìbox ¶ã(x,y), ‘å‚«‚³w,h
+                        const int h2  // ãµãŸã¤ã‚ã®box å·¦ä¸Š(x,y), å¤§ãã•w,h
 ) const {
-    if (x1 < x2 + w2 && x2 < x1 + w1    // x•ûŒü‚Ì”»’è
-        && y1 < y2 + h2 && y2 < y1 + h1 // y•ûŒü‚Ì”»’è
+    if (x1 < x2 + w2 && x2 < x1 + w1    // xæ–¹å‘ã®åˆ¤å®š
+        && y1 < y2 + h2 && y2 < y1 + h1 // yæ–¹å‘ã®åˆ¤å®š
     ) {
-        // 2‚Â‚Ìbox‚Í“–‚½‚Á‚Ä‚¢‚é
+        // 2ã¤ã®boxã¯å½“ãŸã£ã¦ã„ã‚‹
         return true;
     }
 
-    // 2‚Â‚Ìbox‚Í“–‚½‚Á‚Ä‚¢‚È‚¢
+    // 2ã¤ã®boxã¯å½“ãŸã£ã¦ã„ãªã„
     return false;
 }
 
 Player* GameMain::GetPlayer() const {
     for (auto& object : objectList) {
-        // C++ ‚Ì‹@”\‚Å‚ ‚é dynamic_cast
-        // ‚ÅAŠî’êƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^‚ğ”h¶ƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^‚É•ÏŠ·‚·‚é
+        // C++ ã®æ©Ÿèƒ½ã§ã‚ã‚‹ dynamic_cast
+        // ã§ã€åŸºåº•ã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã«å¤‰æ›ã™ã‚‹
         auto player = dynamic_cast<Player*>(object);
 
         if (player != nullptr) {
@@ -228,8 +231,8 @@ Player* GameMain::GetPlayer() const {
 
 Score* GameMain::GetScore() const {
     for (auto& object : objectList) {
-        // C++ ‚Ì‹@”\‚Å‚ ‚é dynamic_cast
-        // ‚ÅAŠî’êƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^‚ğ”h¶ƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^‚É•ÏŠ·‚·‚é
+        // C++ ã®æ©Ÿèƒ½ã§ã‚ã‚‹ dynamic_cast
+        // ã§ã€åŸºåº•ã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã«å¤‰æ›ã™ã‚‹
         auto score = dynamic_cast<Score*>(object);
 
         if (score != nullptr) {
@@ -252,17 +255,17 @@ void GameMain::HitCheckPlayerEnemy(Player* player) const {
             continue;
         }
 
-        // ‚±‚Ì“G‚Íg—p’†‚©H
+        // ã“ã®æ•µã¯ä½¿ç”¨ä¸­ã‹ï¼Ÿ
         if (enemy->IsUse() == false) {
             continue;
         }
 
-        // ƒvƒŒƒCƒ„[‚Æ“G‚Ì“–‚½‚è”»’è
-        if (IsHitBox(player->GetX(), player->GetY(), player->GetW(), player->GetH(), // ƒvƒŒƒCƒ„[‚ğˆÍ‚ŞBox
-                     enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH()      // “G[i]‚ğˆÍ‚ŞBox
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨æ•µã®å½“ãŸã‚Šåˆ¤å®š
+        if (IsHitBox(player->GetX(), player->GetY(), player->GetW(), player->GetH(), // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å›²ã‚€Box
+                     enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH()      // æ•µ[i]ã‚’å›²ã‚€Box
                      ) != false) {
-            // “–‚½‚Á‚½
-            enemy->SetUse(false);  // ‚±‚Ì“G‚ğÁ‚·
+            // å½“ãŸã£ãŸ
+            enemy->SetUse(false);  // ã“ã®æ•µã‚’æ¶ˆã™
             player->SetDamage();
         }
     }
@@ -282,24 +285,24 @@ void GameMain::HitCheckEnemyPlayerBullet(Player* player) const {
             continue;
         }
 
-        // ‚±‚Ì“G‚Íg—p’†‚©H
+        // ã“ã®æ•µã¯ä½¿ç”¨ä¸­ã‹ï¼Ÿ
         if (enemy->IsUse() == false) {
             continue;
         }
 
         for (auto& bt : player->GetBullet()) {
-            // ‚±‚Ì’e‚Íg—p’†‚©H
+            // ã“ã®å¼¾ã¯ä½¿ç”¨ä¸­ã‹ï¼Ÿ
             if (bt->IsUse() == false) {
                 continue;
             }
 
-            if (IsHitBox(enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH(), // “G[i]‚ğˆÍ‚ŞBox
-                         bt->GetX(), bt->GetY(), bt->GetW(), bt->GetH()              // ’e[j]‚ğˆÍ‚ŞBox
+            if (IsHitBox(enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH(), // æ•µ[i]ã‚’å›²ã‚€Box
+                         bt->GetX(), bt->GetY(), bt->GetW(), bt->GetH()              // å¼¾[j]ã‚’å›²ã‚€Box
                          ) != false) {
-                // “–‚½‚Á‚½
-                enemy->SetUse(false);  // ‚±‚Ì“G‚ğÁ‚·
-                bt->SetUse(false);     // ’e‚ğÁ‚·
-                score->AddScore(10);   // ƒXƒRƒAƒAƒbƒv
+                // å½“ãŸã£ãŸ
+                enemy->SetUse(false);  // ã“ã®æ•µã‚’æ¶ˆã™
+                bt->SetUse(false);     // å¼¾ã‚’æ¶ˆã™
+                score->AddScore(10);   // ã‚¹ã‚³ã‚¢ã‚¢ãƒƒãƒ—
             }
         }
     }
@@ -407,7 +410,7 @@ void GameMain::DeleteOldObjects() {
     auto player = GetPlayer();
 
     if (player != nullptr) {
-        // objectList ‚©‚çŒ»İ‚Ì Player ‚ğíœ
+        // objectList ã‹ã‚‰ç¾åœ¨ã® Player ã‚’å‰Šé™¤
         auto remove = std::remove(objectList.begin(), objectList.end(), player);
         objectList.erase(remove, objectList.end());
 
@@ -438,7 +441,7 @@ void GameMain::DeleteOldObjects() {
     auto score = GetScore();
 
     if (score != nullptr) {
-        // objectList ‚©‚çŒ»İ‚Ì Score ‚ğíœ
+        // objectList ã‹ã‚‰ç¾åœ¨ã® Score ã‚’å‰Šé™¤
         auto remove = std::remove(objectList.begin(), objectList.end(), score);
         objectList.erase(remove, objectList.end());
 
@@ -451,7 +454,7 @@ void GameMain::Load() {
     auto player = LoadPlayer();
 
     if (player == nullptr) {
-        return; // Player ‚ÌƒZ[ƒuƒf[ƒ^‚ª‚È‚¢(ˆÈ~‚Ìˆ—‚à‚µ‚È‚¢)
+        return; // Player ã®ã‚»ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿ãŒãªã„(ä»¥é™ã®å‡¦ç†ã‚‚ã—ãªã„)
     }
 
     auto enemyList = LoadEnemyList();
@@ -461,7 +464,7 @@ void GameMain::Load() {
     if (enemyList.size() > 0 && score != nullptr) {
         DeleteOldObjects();
 
-        // SetupScore ‚Æ“¯“™‚Ìˆ—
+        // SetupScore ã¨åŒç­‰ã®å‡¦ç†
         score->SetPlayer(player);
 
         objectList.emplace_back(player);

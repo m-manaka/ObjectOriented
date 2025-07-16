@@ -1,14 +1,14 @@
-#pragma once
-#include <vector>
-#include "Bullet.h"
-#include "ObjectBase.h"
+export module Player;
+import <vector>;
+import Bullet;
+import ObjectBase;
 
-class Player : public ObjectBase {
+export class Player : public ObjectBase {
 public:
     Player(const int width,
-           const int height,
-           const int cgBullet,
-           const TCHAR* fileName);
+        const int height,
+        const int cgBullet,
+        const TCHAR* fileName);
     Player(const int width, const int height, const int cgBullet);
     virtual ~Player();
 

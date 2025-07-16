@@ -1,12 +1,16 @@
-#include "Enemy.h"
-#include "DxLib.h"
+module Enemy;
+//import <stdlib.h>; // rand()
+import ObjectBase;
+import DxLibWrapper;
 
-namespace {
-    constexpr auto ENEMY_WIDTH = 32;
-    constexpr auto ENEMY_HEIGHT = 32;
-    constexpr auto ENEMY_SPEED_X = 8;
-    constexpr auto ENEMY_SPEED_Y = 4;
-} // namespace
+constexpr auto ENEMY_WIDTH = 32;
+constexpr auto ENEMY_HEIGHT = 32;
+constexpr auto ENEMY_SPEED_X = 8;
+constexpr auto ENEMY_SPEED_Y = 4;
+
+int rand() {
+    return 0;
+}
 
 Enemy::Enemy(const int width, const int height, const int cgHandle) : ObjectBase() {
     use = false;
@@ -37,20 +41,20 @@ void Enemy::Init() {
 }
 
 void Enemy::Process(const int key, const int trriger) {
-    // MoveEnemy ‚É‘Š“–
-    // ‚±‚Ì“G‚Íg—p’†‚©H
+    // MoveEnemy ã«ç›¸å½“
+    // ã“ã®æ•µã¯ä½¿ç”¨ä¸­ã‹ï¼Ÿ
     if (use == true) {
-        // ‚±‚Ì“G‚Íg—p’†‚Å‚ ‚é
-        // “G‚ÌˆÚ“®ˆ—
+        // ã“ã®æ•µã¯ä½¿ç”¨ä¸­ã§ã‚ã‚‹
+        // æ•µã®ç§»å‹•å‡¦ç†
         x += spd_x;
         y += spd_y;
 
-        // ‰¡ƒoƒEƒ“ƒh‚Ì”»’è
+        // æ¨ªãƒã‚¦ãƒ³ãƒ‰ã®åˆ¤å®š
         if (x < 0 || x + w > screenWidth) {
             spd_x *= -1;
         }
 
-        // ‰æ–Ê‰º‚Éo‚é”»’è
+        // ç”»é¢ä¸‹ã«å‡ºã‚‹åˆ¤å®š
         if (y > screenHeight) {
             InitPos();
         }

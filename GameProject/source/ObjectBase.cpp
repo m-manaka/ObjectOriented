@@ -1,5 +1,6 @@
-#include "ObjectBase.h"
-#include "DxLib.h"
+module  ObjectBase;
+import <tchar.h>;
+import DxLibWrapper;
 
 ObjectBase::ObjectBase() {
     cgHandle = -1;
@@ -23,7 +24,7 @@ ObjectBase::ObjectBase(const TCHAR* fileName) {
 
 ObjectBase::~ObjectBase() {
     if (cgHandle != -1 && !cgHandleDeleteLock) {
-        DeleteGraph(cgHandle);
+        DW::DeleteGraph(cgHandle);
         cgHandle = -1;
     }
 }
@@ -31,13 +32,13 @@ ObjectBase::~ObjectBase() {
 void ObjectBase::Init() {}
 
 void ObjectBase::Load(const TCHAR* fileName) {
-    cgHandle = LoadGraph(fileName);
+    cgHandle = DW::LoadGraph(fileName);
 }
 
 void ObjectBase::Process(const int key, const int trriger) {}
 
 void ObjectBase::Draw() {
     if (cgHandle != -1) {
-        DrawGraph(x, y, cgHandle, TRUE);
+        DW::DrawGraph(x, y, cgHandle, DW::DW_TRUE);
     }
 }

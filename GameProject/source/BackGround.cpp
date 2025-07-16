@@ -1,7 +1,9 @@
-#include "BackGround.h"
+module BackGround;
+import <tchar.h>;
+import ObjectBase;
 
-// 継承先クラスのコンストラクタに続けて ": 基底クラスコンストラクタ"
-// と呼び出せる
+// 邯呎価蜈医け繝ｩ繧ｹ縺ｮ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縺ｫ邯壹￠縺ｦ ": 蝓ｺ蠎輔け繝ｩ繧ｹ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ"
+// 縺ｨ蜻ｼ縺ｳ蜃ｺ縺帙ｋ
 BackGround::BackGround(const TCHAR* fileName) : ObjectBase(fileName) {}
 
 BackGround::~BackGround() {}

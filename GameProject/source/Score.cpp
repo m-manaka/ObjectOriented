@@ -1,12 +1,10 @@
-#include "Score.h"
-#include "DxLib.h"
-#include "Player.h"
+module Score;
+import ObjectBase;
+import DxLibWrapper;
 
-namespace {
-    constexpr auto SCORE_POS_X = 32;
-    constexpr auto SCORE_POS_Y = 32;
-    auto scoreColor = GetColor(255, 0, 0);
-} // namespace
+constexpr auto SCORE_POS_X = 32;
+constexpr auto SCORE_POS_Y = 32;
+auto scoreColor = DW::GetColor(255, 0, 0);
 
 Score::Score() : ObjectBase() {
     score = 0;
@@ -20,6 +18,6 @@ void Score::Draw() {
         return;
     }
 
-    // ライフ、スコア表示
-    DrawFormatString(SCORE_POS_X, SCORE_POS_Y, scoreColor, "Life:%d   Score:%d", player->GetLife(), score);
+    // 繝ｩ繧､繝輔√せ繧ｳ繧｢陦ｨ遉ｺ
+    DW::DrawFormatString(SCORE_POS_X, SCORE_POS_Y, scoreColor, "Life:%d   Score:%d", player->GetLife(), score);
 }

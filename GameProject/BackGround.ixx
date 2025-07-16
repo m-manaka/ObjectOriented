@@ -1,8 +1,8 @@
-#pragma once
-#include "ObjectBase.h"
+export module BackGround;
+import ObjectBase;
 
 // 背景画像をロードして描画だけするクラス
-class BackGround : public ObjectBase {
+export class BackGround : public ObjectBase {
 public:
     BackGround(const TCHAR* fileName);
     virtual ~BackGround();

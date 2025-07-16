@@ -1,11 +1,11 @@
-#pragma once
+export module GameMain;
 import <vector>;
 import ObjectBase;
 import Player;
 import Enemy;
 import Score;
 
-class GameMain {
+export class GameMain {
 public:
     GameMain();
     virtual ~GameMain();
@@ -30,13 +30,13 @@ private:
     void Create();
     void SetupScore();
     bool IsHitBox(const int x1,
-                  const int y1,
-                  const int w1,
-                  const int h1,
-                  const int x2,
-                  const int y2,
-                  const int w2,
-                  const int h2) const;
+        const int y1,
+        const int w1,
+        const int h1,
+        const int x2,
+        const int y2,
+        const int w2,
+        const int h2) const;
     void HitCheckPlayerEnemy(Player* player) const;
     void HitCheckEnemyPlayerBullet(Player* player) const;
     Player* GetPlayer() const;
@@ -45,14 +45,14 @@ private:
     int inputKey;
     int inputTrg;
 
-    // C++ ã® STL ã§ã‚ã‚‹ std::vector ã‚’é…åˆ—ã®å¤‰ã‚ã‚Šã«ä½¿ã†
+    // C++ ‚Ì STL ‚Å‚ ‚é std::vector ‚ğ”z—ñ‚Ì•Ï‚í‚è‚Ég‚¤
     std::vector<ObjectBase*> objectList;
 
-    // Save / Load ã®ç‚ºã«å¢—ã‚„ã—ã‚„ãƒ¡ãƒ³ãƒ
+    // Save / Load ‚Ìˆ×‚É‘‚â‚µ‚âƒƒ“ƒo
     int cgBullet;
     int cgEnemy;
 
-    // ãƒãƒ¼ã‚º(&Save/Load)æ©Ÿèƒ½
+    // ƒ|[ƒY(&Save/Load)‹@”\
     bool isPause;
     bool isSelectSave;
 };

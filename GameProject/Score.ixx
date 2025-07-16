@@ -1,9 +1,8 @@
-#pragma once
-#include "ObjectBase.h"
+export module Score;
+import ObjectBase;
+import Player;
 
-class Player;  // ‘O•ûéŒ¾
-
-class Score : public ObjectBase {
+export class Score : public ObjectBase {
 public:
     Score();
     virtual ~Score();

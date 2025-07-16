@@ -1,13 +1,15 @@
-#include "Player.h"
-#include "DxLib.h"
+module Player;
+import <tchar.h>;
+import <vector>;
+import ObjectBase;
+import Bullet;
+import DxLibWrapper;
 
-namespace {
-    constexpr auto PLAYER_WIDTH = 48;
-    constexpr auto PLAYER_HEIGHT = 48;
-    constexpr auto PLAYER_SPEED = 8;
-    constexpr auto PLAYER_LIFE = 5;
-    constexpr auto BULLET_MAX = 3;
-} // namespace
+constexpr auto PLAYER_WIDTH = 48;
+constexpr auto PLAYER_HEIGHT = 48;
+constexpr auto PLAYER_SPEED = 8;
+constexpr auto PLAYER_LIFE = 5;
+constexpr auto BULLET_MAX = 3;
 
 Player::Player(const int width,
                const int height,
@@ -54,21 +56,21 @@ void Player::Init() {
 }
 
 void Player::Process(const int key, const int trriger) {
-    // ƒL[“ü—Í‚ğ”»’è‚µ‚ÄAålŒö‚ğˆÚ“®‚³‚¹‚é
-    if (key & PAD_INPUT_LEFT) {
+    // ã‚­ãƒ¼å…¥åŠ›ã‚’åˆ¤å®šã—ã¦ã€ä¸»äººå…¬ã‚’ç§»å‹•ã•ã›ã‚‹
+    if (key & DW::DW_PAD_INPUT_LEFT) {
         x -= spd;
     }
-    if (key & PAD_INPUT_RIGHT) {
+    if (key & DW::DW_PAD_INPUT_RIGHT) {
         x += spd;
     }
-    if (key & PAD_INPUT_UP) {
+    if (key & DW::DW_PAD_INPUT_UP) {
         y -= spd;
     }
-    if (key & PAD_INPUT_DOWN) {
+    if (key & DW::DW_PAD_INPUT_DOWN) {
         y += spd;
     }
 
-    // ‰æ–Ê‚ÌŠO‚Éo‚È‚¢‚æ‚¤‚É‚·‚é
+    // ç”»é¢ã®å¤–ã«å‡ºãªã„ã‚ˆã†ã«ã™ã‚‹
     if (x < 0) {
         x = 0;
     }
@@ -82,8 +84,8 @@ void Player::Process(const int key, const int trriger) {
         y = screenHeight - h;
     }
 
-    // ’e‚Ì”­Ë
-    if (trriger & PAD_INPUT_A) {
+    // å¼¾ã®ç™ºå°„
+    if (trriger & DW::DW_PAD_INPUT_A) {
         AddPlayerBullet();
     }
 
@@ -101,16 +103,16 @@ void Player::Draw() {
 }
 
 void Player::SetDamage() {
-    y = screenHeight - h; // ‰º’[‚ÉˆÚ“®
-    life--;               // ƒ‰ƒCƒt‚ğŒ¸‚ç‚·
+    y = screenHeight - h; // ä¸‹ç«¯ã«ç§»å‹•
+    life--;               // ãƒ©ã‚¤ãƒ•ã‚’æ¸›ã‚‰ã™
 }
 
 void Player::AddPlayerBullet() {
-    // g‚Á‚Ä‚¢‚È‚¢”z—ñ‚ğ’T‚·
+    // ä½¿ã£ã¦ã„ãªã„é…åˆ—ã‚’æ¢ã™
     for (auto& bt : bullet) {
         if (bt->IsUse() == false) {
-            // g‚Á‚Ä‚¢‚È‚¢B‚±‚±‚ğg‚¤
-            // ŠJnˆÊ’u‚ğƒvƒŒƒCƒ„[À•W‚©‚çZo‚·‚é
+            // ä½¿ã£ã¦ã„ãªã„ã€‚ã“ã“ã‚’ä½¿ã†
+            // é–‹å§‹ä½ç½®ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™ã‹ã‚‰ç®—å‡ºã™ã‚‹
             bt->Set(x + w / 2, y);
             break;
         }

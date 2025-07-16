@@ -3,60 +3,60 @@
 * Commnet
 *
 */
-#include "GameMain.h"
-#include "DxLib.h"
-
+#include <Windows.h>; // WinMain
+#include "GameMain.h";
+import DxLibWrapper;
 
 namespace {
-    // ‰æ–Êİ’è
-    constexpr auto SCREEN_W = 1280;    ///< ‰æ–Ê‚Ì‰¡‰ğ‘œ“x
-    constexpr auto SCREEN_H = 720;     ///< ‰æ–Ê‚Ìc‰ğ‘œ“x
-    constexpr auto SCREEN_DEPTH = 32;  ///< ‚Pƒhƒbƒg‚ ‚½‚è‚Ìƒrƒbƒg”
+    // ç”»é¢è¨­å®š
+    constexpr auto SCREEN_W = 1280;    ///< ç”»é¢ã®æ¨ªè§£åƒåº¦
+    constexpr auto SCREEN_H = 720;     ///< ç”»é¢ã®ç¸¦è§£åƒåº¦
+    constexpr auto SCREEN_DEPTH = 32;  ///< ï¼‘ãƒ‰ãƒƒãƒˆã‚ãŸã‚Šã®ãƒ“ãƒƒãƒˆæ•°
 } // namespace
 
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
+// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯ WinMain ã‹ã‚‰å§‹ã¾ã‚Šã¾ã™
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine,
                    int nCmdShow) {
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     // -------------------------------------------------------------------------
-    // ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
-    SetGraphMode(SCREEN_W, SCREEN_H, SCREEN_DEPTH);  // ‰æ–Ê‚Ì‰ğ‘œ“x‚ğ‰¡1280~c720A1ƒhƒbƒg‚ ‚½‚è32ƒrƒbƒg‚Éw’è‚·‚é
+    // ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆæœŸåŒ–å‡¦ç†
+    DW::SetGraphMode(SCREEN_W, SCREEN_H, SCREEN_DEPTH);  // ç”»é¢ã®è§£åƒåº¦ã‚’æ¨ª1280Ã—ç¸¦720ã€1ãƒ‰ãƒƒãƒˆã‚ãŸã‚Š32ãƒ“ãƒƒãƒˆã«æŒ‡å®šã™ã‚‹
 
-    ChangeWindowMode(true);    // ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Éw’è‚·‚é
+    DW::ChangeWindowMode(true);    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã«æŒ‡å®šã™ã‚‹
 
-    if (DxLib_Init() == -1) {  // ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
+    if (DW::DxLib_Init() == -1) {  // ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰ç›´ã¡ã«çµ‚äº†
         return -1;
     }
 
-    SetDrawScreen(DX_SCREEN_BACK);  // •`‰ææ‰æ–Ê‚ğ— ‰æ–Ê‚ÉƒZƒbƒg
+    DW::SetDrawScreen(DW::DW_SCREEN_BACK);  // æç”»å…ˆç”»é¢ã‚’è£ç”»é¢ã«ã‚»ãƒƒãƒˆ
 
-    // ƒQ[ƒ€ƒƒCƒ“
+    // ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³
     GameMain* gameMain = new GameMain();
 
     gameMain->Init();
 
-    // ƒƒCƒ“ƒ‹[ƒv
-    while (ProcessMessage() == 0) {
+    // ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
+    while (DW::ProcessMessage() == 0) {
         gameMain->Input();
 
         if (!gameMain->Process()) {
             break;
         }
 
-        ClearDrawScreen();
+        DW::ClearDrawScreen();
         gameMain->Draw();
-        ScreenFlip();
+        DW::ScreenFlip();
     }
 
     delete gameMain;
 
-    // ‰ğ•ú
+    // è§£æ”¾
     // ---------------------------------------------------------------------------
-    DxLib_End();  // ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
+    DW::DxLib_End();  // ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
 
-    // I—¹
+    // çµ‚äº†
     return 0;
 }
 

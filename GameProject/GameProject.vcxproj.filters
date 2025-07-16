@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="モジュール">
+      <UniqueIdentifier>{e6c66282-8b23-4103-ba3d-061405664161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -39,27 +42,30 @@
     <ClCompile Include="source\Bullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="BackGround.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
+    <ClCompile Include="DxLibWrapper.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.ixx">
+      <Filter>モジュール</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\GameMain.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ObjectBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Score.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Bullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
