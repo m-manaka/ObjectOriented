@@ -3,7 +3,7 @@
 * Commnet
 *
 */
-#include <Windows.h>; // WinMain
+#include <Windows.h> // WinMain
 import GameMain;
 import DxLibWrapper;
 
