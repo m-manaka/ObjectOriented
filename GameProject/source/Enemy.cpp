@@ -1,5 +1,5 @@
-#include <stdlib.h>
 module Enemy;
+import std;
 import ObjectBase;
 import DxLibWrapper;
 
@@ -22,7 +22,7 @@ Enemy::Enemy(const int width, const int height, const int cgHandle) : ObjectBase
 Enemy::~Enemy() {}
 
 void Enemy::InitPos() {
-    x = rand() % screenWidth;
+    x = std::rand() % screenWidth;
     y = (0 - h);
 }
 

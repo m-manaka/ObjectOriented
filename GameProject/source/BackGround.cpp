@@ -1,5 +1,6 @@
+module;
+#include <tchar.h>
 module BackGround;
-import <tchar.h>;
 import ObjectBase;
 
 // 継承先クラスのコンストラクタに続けて ": 基底クラスコンストラクタ"

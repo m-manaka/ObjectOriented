@@ -1,5 +1,5 @@
 export module GameMain;
-import <vector>;
+import std;
 import ObjectBase;
 import Player;
 import Enemy;

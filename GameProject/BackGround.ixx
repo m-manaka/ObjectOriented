@@ -1,3 +1,5 @@
+module;
+#include <tchar.h>
 export module BackGround;
 import ObjectBase;
 

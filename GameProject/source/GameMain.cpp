@@ -1,8 +1,8 @@
-#include <fstream>
+module;
+#include <tchar.h>
 #include "nlohmann/json.hpp"
 module GameMain;
-import <tchar.h>;
-import <vector>;
+import std;
 import ObjectBase;
 import BackGround;
 import Enemy;

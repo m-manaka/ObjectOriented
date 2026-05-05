@@ -1,5 +1,7 @@
+module;
+#include <tchar.h>
 export module Player;
-import <vector>;
+import std;
 import Bullet;
 import ObjectBase;
 

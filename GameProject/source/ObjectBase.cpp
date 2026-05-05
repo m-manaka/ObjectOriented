@@ -1,5 +1,6 @@
-module  ObjectBase;
-import <tchar.h>;
+module;
+#include <tchar.h>
+module ObjectBase;
 import DxLibWrapper;
 
 ObjectBase::ObjectBase() {

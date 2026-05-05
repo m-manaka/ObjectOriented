@@ -1,6 +1,7 @@
+module;
+#include <tchar.h>
 module Player;
-import <tchar.h>;
-import <vector>;
+import std;
 import ObjectBase;
 import Bullet;
 import DxLibWrapper;
