@@ -10,51 +10,49 @@ import Player;
 import Score;
 import DxLibWrapper;
 
-namespace {
-    constexpr auto DISP_W = 1280;  // 画面の横解像度
-    constexpr auto DISP_H = 720;   // 画面の縦解像度
-    constexpr auto ENEMY_NUM = 30;
+constexpr auto DISP_W = 1280;  // 画面の横解像度
+constexpr auto DISP_H = 720;   // 画面の縦解像度
+constexpr auto ENEMY_NUM = 30;
 
-    constexpr auto PauseX = 550;
-    constexpr auto PauseY = 250;
-    constexpr auto SaveX = 550;
-    constexpr auto SaveY = 350;
-    constexpr auto LoadX = 550;
-    constexpr auto LoadY = 450;
+constexpr auto PauseX = 550;
+constexpr auto PauseY = 250;
+constexpr auto SaveX = 550;
+constexpr auto SaveY = 350;
+constexpr auto LoadX = 550;
+constexpr auto LoadY = 450;
 
-    constexpr auto PauseText = _T("PAUSE");
-    constexpr auto SaveText = _T("Save");
-    constexpr auto LoadText = _T("Load");
+constexpr auto PauseText = _T("PAUSE");
+constexpr auto SaveText = _T("Save");
+constexpr auto LoadText = _T("Load");
 
-    const auto PauseColor = DW::GetColor(0, 0, 255);
-    const auto MenuColor = DW::GetColor(128, 128, 128);
-    const auto SelectColor = DW::GetColor(196, 196, 64);
+const auto PauseColor = DW::GetColor(0, 0, 255);
+const auto MenuColor = DW::GetColor(128, 128, 128);
+const auto SelectColor = DW::GetColor(196, 196, 64);
 
-    // 基底クラスの情報を保存する
-    // 基底クラスという事は、全クラスで共通なので処理を関数化
-    void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
-        json["x"] = objectBase->GetX();
-        json["y"] = objectBase->GetY();
-        json["w"] = objectBase->GetW();
-        json["h"] = objectBase->GetH();
-    }
+// 基底クラスの情報を保存する
+// 基底クラスという事は、全クラスで共通なので処理を関数化
+void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
+    json["x"] = objectBase->GetX();
+    json["y"] = objectBase->GetY();
+    json["w"] = objectBase->GetW();
+    json["h"] = objectBase->GetH();
+}
 
-    // 基底クラスの情報を読み込む
-    // 基底クラスという事は、全クラスで共通なので処理を関数化
-    void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
-        int x, y, w, h;
+// 基底クラスの情報を読み込む
+// 基底クラスという事は、全クラスで共通なので処理を関数化
+void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
+    int x, y, w, h;
 
-        json.at(_T("x")).get_to(x);
-        json.at(_T("y")).get_to(y);
-        json.at(_T("w")).get_to(w);
-        json.at(_T("h")).get_to(h);
+    json.at(_T("x")).get_to(x);
+    json.at(_T("y")).get_to(y);
+    json.at(_T("w")).get_to(w);
+    json.at(_T("h")).get_to(h);
 
-        objectBase->SetX(x);
-        objectBase->SetY(y);
-        objectBase->SetW(w);
-        objectBase->SetH(h);
-    }
-} // namespace
+    objectBase->SetX(x);
+    objectBase->SetY(y);
+    objectBase->SetW(w);
+    objectBase->SetH(h);
+}
 
 GameMain::GameMain() {
     inputKey = 0;
