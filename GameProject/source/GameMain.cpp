@@ -2,12 +2,7 @@ module;
 #include <tchar.h>
 #include "nlohmann/json.hpp"
 module GameMain;
-import std;
-import ObjectBase;
 import BackGround;
-import Enemy;
-import Player;
-import Score;
 import DxLibWrapper;
 
 constexpr auto DISP_W = 1280;  // 画面の横解像度

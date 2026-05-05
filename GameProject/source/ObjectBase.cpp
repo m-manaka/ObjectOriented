@@ -1,5 +1,4 @@
 module;
-#include <tchar.h>
 module ObjectBase;
 import DxLibWrapper;
 

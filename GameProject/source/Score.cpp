@@ -1,5 +1,4 @@
 module Score;
-import ObjectBase;
 import DxLibWrapper;
 
 constexpr auto SCORE_POS_X = 32;

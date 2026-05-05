@@ -1,5 +1,4 @@
 module Bullet;
-import ObjectBase;
 
 constexpr auto BULLET_WIDTH = 8;
 constexpr auto BULLET_HEIGHT = 16;

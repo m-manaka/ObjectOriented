@@ -1,6 +1,5 @@
 module Enemy;
 import std;
-import ObjectBase;
 import DxLibWrapper;
 
 constexpr auto ENEMY_WIDTH = 32;

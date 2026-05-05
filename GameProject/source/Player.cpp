@@ -1,9 +1,5 @@
 module;
-#include <tchar.h>
 module Player;
-import std;
-import ObjectBase;
-import Bullet;
 import DxLibWrapper;
 
 constexpr auto PLAYER_WIDTH = 48;
