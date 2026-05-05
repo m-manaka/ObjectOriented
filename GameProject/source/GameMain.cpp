@@ -375,7 +375,7 @@ void GameMain::SaveScore(const Score* score) const {
     ofs.close();
 }
 
-void GameMain::SaveEnemyList(const std::vector<Enemy*> enemyList) const {
+void GameMain::SaveEnemyList(const std::vector<Enemy*>& enemyList) const {
     nlohmann::json enemyListJson;
 
     for (const auto& enemy : enemyList) {

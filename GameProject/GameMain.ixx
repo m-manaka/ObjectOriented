@@ -18,7 +18,7 @@ public:
 private:
     void Save() const;
     void SavePlayer(const Player* player) const;
-    void SaveEnemyList(const std::vector<Enemy*> enemyList) const;
+    void SaveEnemyList(const std::vector<Enemy*>& enemyList) const;
     void SaveScore(const Score* score) const;
 
     void Load();

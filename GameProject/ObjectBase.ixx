@@ -2,8 +2,8 @@ module;
 #include <tchar.h>
 export module ObjectBase;
 
-export // 本プログラムの全てのオブジェクトの基底クラス
-class ObjectBase {
+// 本プログラムの全てのオブジェクトの基底クラス
+export class ObjectBase {
 public:
     ObjectBase();  // コンストラクタ
     // コンストラクタは引数を変えれば何個でも作成可能

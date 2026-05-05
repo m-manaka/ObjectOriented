@@ -1,4 +1,3 @@
-module;
 module ObjectBase;
 import DxLibWrapper;
 

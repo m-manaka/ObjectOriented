@@ -25,17 +25,17 @@ export namespace DW {
 
     using ::GetJoypadInputState;
 
-    export constexpr auto DW_TRUE = TRUE;
-    export constexpr auto DW_SCREEN_BACK = DX_SCREEN_BACK;
+    constexpr auto DW_TRUE = TRUE;
+    constexpr auto DW_SCREEN_BACK = DX_SCREEN_BACK;
 
-    export constexpr auto DW_PAD_INPUT_LEFT = PAD_INPUT_LEFT;
-    export constexpr auto DW_PAD_INPUT_RIGHT = PAD_INPUT_RIGHT;
-    export constexpr auto DW_PAD_INPUT_UP = PAD_INPUT_UP;
-    export constexpr auto DW_PAD_INPUT_DOWN = PAD_INPUT_DOWN;
+    constexpr auto DW_PAD_INPUT_LEFT = PAD_INPUT_LEFT;
+    constexpr auto DW_PAD_INPUT_RIGHT = PAD_INPUT_RIGHT;
+    constexpr auto DW_PAD_INPUT_UP = PAD_INPUT_UP;
+    constexpr auto DW_PAD_INPUT_DOWN = PAD_INPUT_DOWN;
 
-    export constexpr auto DW_PAD_INPUT_A = PAD_INPUT_A;
-    export constexpr auto DW_PAD_INPUT_7 = PAD_INPUT_7;
-    export constexpr auto DW_PAD_INPUT_9 = PAD_INPUT_9;
-    export constexpr auto DW_PAD_INPUT_10 = PAD_INPUT_10;
-    export constexpr auto DW_INPUT_KEY_PAD1 = DX_INPUT_KEY_PAD1;
+    constexpr auto DW_PAD_INPUT_A = PAD_INPUT_A;
+    constexpr auto DW_PAD_INPUT_7 = PAD_INPUT_7;
+    constexpr auto DW_PAD_INPUT_9 = PAD_INPUT_9;
+    constexpr auto DW_PAD_INPUT_10 = PAD_INPUT_10;
+    constexpr auto DW_INPUT_KEY_PAD1 = DX_INPUT_KEY_PAD1;
 }

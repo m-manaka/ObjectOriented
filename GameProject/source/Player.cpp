@@ -1,4 +1,3 @@
-module;
 module Player;
 import DxLibWrapper;
 

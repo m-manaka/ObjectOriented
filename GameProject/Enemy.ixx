@@ -28,5 +28,4 @@ private:
 
     int screenWidth;
     int screenHeight;
-}
-;
+};
