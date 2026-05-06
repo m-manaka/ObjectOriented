@@ -8,10 +8,6 @@ constexpr auto ENEMY_SPEED_X = 8;
 constexpr auto ENEMY_SPEED_Y = 4;
 
 Enemy::Enemy(const int width, const int height, const int cgHandle) : ObjectBase() {
-    use = false;
-    spd_x = 0;
-    spd_y = 0;
-
     screenWidth = width;
     screenHeight = height;
 
@@ -21,7 +17,10 @@ Enemy::Enemy(const int width, const int height, const int cgHandle) : ObjectBase
 Enemy::~Enemy() {}
 
 void Enemy::InitPos() {
-    x = std::rand() % screenWidth;
+    static std::mt19937 rng{ std::random_device{}() };
+    std::uniform_int_distribution<int> dist(0, screenWidth - 1);
+
+    x = dist(rng);
     y = (0 - h);
 }
 
@@ -35,10 +34,10 @@ void Enemy::Init() {
     InitPos();
 }
 
-void Enemy::Process(const int key, const int trriger) {
+void Enemy::Process([[maybe_unused]] const int key, [[maybe_unused]] const int trigger) {
     // MoveEnemy に相当
     // この敵は使用中か？
-    if (use == true) {
+    if (use) {
         // この敵は使用中である
         // 敵の移動処理
         x += spd_x;
@@ -57,7 +56,7 @@ void Enemy::Process(const int key, const int trriger) {
 }
 
 void Enemy::Draw() {
-    if (use == false) {
+    if (!use) {
         return;
     }
 

@@ -7,35 +7,24 @@ constexpr auto PLAYER_SPEED = 8;
 constexpr auto PLAYER_LIFE = 5;
 constexpr auto BULLET_MAX = 3;
 
+Player::Player(const int width, const int height, const int cgBullet) : ObjectBase() {
+    screenWidth = width;
+    screenHeight = height;
+
+    for (auto i = 0; i < BULLET_MAX; ++i) {
+        bullet.emplace_back(new Bullet(cgBullet));
+    }
+}
+
 Player::Player(const int width,
                const int height,
                const int cgBullet,
-               const TCHAR* fileName) : ObjectBase(fileName) {
-    spd = 0;
-    life = 0;
-
-    screenWidth = width;
-    screenHeight = height;
-
-    for (auto i = 0; i < BULLET_MAX; ++i) {
-        bullet.emplace_back(new Bullet(cgBullet));
-    }
-}
-
-Player::Player(const int width, const int height, const int cgBullet) : ObjectBase() {
-    spd = 0;
-    life = 0;
-
-    screenWidth = width;
-    screenHeight = height;
-
-    for (auto i = 0; i < BULLET_MAX; ++i) {
-        bullet.emplace_back(new Bullet(cgBullet));
-    }
+               const TCHAR* fileName) : Player(width, height, cgBullet) {
+    Load(fileName);
 }
 
 Player::~Player() {
-    for (auto&& bt : bullet) {
+    for (auto* bt : bullet) {
         delete bt;
     }
 
@@ -51,7 +40,7 @@ void Player::Init() {
     life = PLAYER_LIFE;
 }
 
-void Player::Process(const int key, const int trriger) {
+void Player::Process(const int key, const int trigger) {
     // キー入力を判定して、主人公を移動させる
     if (key & DW::DW_PAD_INPUT_LEFT) {
         x -= spd;
@@ -81,19 +70,19 @@ void Player::Process(const int key, const int trriger) {
     }
 
     // 弾の発射
-    if (trriger & DW::DW_PAD_INPUT_A) {
+    if (trigger & DW::DW_PAD_INPUT_A) {
         AddPlayerBullet();
     }
 
-    for (auto& bt : bullet) {
-        bt->Process(key, trriger);
+    for (auto* bt : bullet) {
+        bt->Process(key, trigger);
     }
 }
 
 void Player::Draw() {
     ObjectBase::Draw();
 
-    for (auto& bt : bullet) {
+    for (auto* bt : bullet) {
         bt->Draw();
     }
 }
@@ -105,8 +94,8 @@ void Player::SetDamage() {
 
 void Player::AddPlayerBullet() {
     // 使っていない配列を探す
-    for (auto& bt : bullet) {
-        if (bt->IsUse() == false) {
+    for (auto* bt : bullet) {
+        if (!bt->IsUse()) {
             // 使っていない。ここを使う
             // 開始位置をプレイヤー座標から算出する
             bt->Set(x + w / 2, y);

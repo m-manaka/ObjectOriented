@@ -13,14 +13,14 @@ public:
     virtual void Init();
     virtual void Load(const TCHAR* fileName);
     // 基本的に class でのメソッド引数には const をつける
-    virtual void Process(const int key, const int trriger);
+    virtual void Process(const int key, const int trigger);
     virtual void Draw();
 
-    int GetCgHandle() const { return cgHandle; }
-    int GetX() const { return x; }
-    int GetY() const { return y; }
-    int GetW() const { return w; }
-    int GetH() const { return h; }
+    [[nodiscard]] int GetCgHandle() const { return cgHandle; }
+    [[nodiscard]] int GetX() const { return x; }
+    [[nodiscard]] int GetY() const { return y; }
+    [[nodiscard]] int GetW() const { return w; }
+    [[nodiscard]] int GetH() const { return h; }
 
     void SetCgHandle(const int cgHandle) { this->cgHandle = cgHandle; }
     void SetX(const int x) { this->x = x; }
@@ -35,11 +35,11 @@ public:
 protected:
     // protected にして継承先クラスで使用可能にする
     // 下記のメンバ変数が、今回の基底に相応しい種類と設計する
-    int cgHandle;
-    int x;
-    int y;
-    int w;
-    int h;
+    int cgHandle{ -1 };
+    int x{ 0 };
+    int y{ 0 };
+    int w{ 0 };
+    int h{ 0 };
 
-    bool cgHandleDeleteLock;
+    bool cgHandleDeleteLock{ false };
 };

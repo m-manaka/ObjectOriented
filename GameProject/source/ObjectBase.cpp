@@ -1,23 +1,9 @@
 module ObjectBase;
 import DxLibWrapper;
 
-ObjectBase::ObjectBase() {
-    cgHandle = -1;
-    x = 0;
-    y = 0;
-    w = 0;
-    h = 0;
-    cgHandleDeleteLock = false;
-}
+ObjectBase::ObjectBase() = default;
 
 ObjectBase::ObjectBase(const TCHAR* fileName) {
-    cgHandle = -1;
-    x = 0;
-    y = 0;
-    w = 0;
-    h = 0;
-    cgHandleDeleteLock = false;
-
     Load(fileName);
 }
 
@@ -34,7 +20,7 @@ void ObjectBase::Load(const TCHAR* fileName) {
     cgHandle = DW::LoadGraph(fileName);
 }
 
-void ObjectBase::Process(const int key, const int trriger) {}
+void ObjectBase::Process([[maybe_unused]] const int key, [[maybe_unused]] const int trigger) {}
 
 void ObjectBase::Draw() {
     if (cgHandle != -1) {

@@ -4,7 +4,7 @@ export module BackGround;
 import ObjectBase;
 
 // 背景画像をロードして描画だけするクラス
-export class BackGround : public ObjectBase {
+export class BackGround final : public ObjectBase {
 public:
     BackGround(const TCHAR* fileName);
     virtual ~BackGround();

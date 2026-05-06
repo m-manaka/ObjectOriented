@@ -39,20 +39,20 @@ private:
         const int h2) const;
     void HitCheckPlayerEnemy(Player* player) const;
     void HitCheckEnemyPlayerBullet(Player* player) const;
-    Player* GetPlayer() const;
-    Score* GetScore() const;
+    [[nodiscard]] Player* GetPlayer() const;
+    [[nodiscard]] Score* GetScore() const;
 
-    int inputKey;
-    int inputTrg;
+    int inputKey{ 0 };
+    int inputTrg{ 0 };
 
     // C++ の STL である std::vector を配列の変わりに使う
     std::vector<ObjectBase*> objectList;
 
     // Save / Load の為に増やしやメンバ
-    int cgBullet;
-    int cgEnemy;
+    int cgBullet{ -1 };
+    int cgEnemy{ -1 };
 
     // ポーズ(&Save/Load)機能
-    bool isPause;
-    bool isSelectSave;
+    bool isPause{ false };
+    bool isSelectSave{ true };
 };

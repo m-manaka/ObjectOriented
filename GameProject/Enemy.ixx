@@ -1,20 +1,20 @@
 export module Enemy;
 import ObjectBase;
 
-export class Enemy : public ObjectBase {
+export class Enemy final : public ObjectBase {
 public:
     Enemy(const int width, const int height, const int cgHandle);
     virtual ~Enemy();
 
     void Init() override;
-    void Process(const int key, const int trriger) override;
+    void Process(const int key, const int trigger) override;
     void Draw() override;
 
-    bool IsUse() const { return use; }
+    [[nodiscard]] bool IsUse() const { return use; }
     void SetUse(const bool use) { this->use = use; }
 
-    int GetSpeedX() const { return spd_x; }
-    int GetSpeedY() const { return spd_y; }
+    [[nodiscard]] int GetSpeedX() const { return spd_x; }
+    [[nodiscard]] int GetSpeedY() const { return spd_y; }
 
     void SetSpeedX(const int spd_x) { this->spd_x = spd_x; }
     void SetSpeedY(const int spd_y) { this->spd_y = spd_y; }
@@ -22,10 +22,10 @@ public:
 private:
     void InitPos();
 
-    bool use;
-    int spd_x;
-    int spd_y;
+    bool use{ false };
+    int spd_x{ 0 };
+    int spd_y{ 0 };
 
-    int screenWidth;
-    int screenHeight;
+    int screenWidth{ 0 };
+    int screenHeight{ 0 };
 };

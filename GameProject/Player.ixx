@@ -5,7 +5,7 @@ import std;
 import Bullet;
 import ObjectBase;
 
-export class Player : public ObjectBase {
+export class Player final : public ObjectBase {
 public:
     Player(const int width,
         const int height,
@@ -15,27 +15,28 @@ public:
     virtual ~Player();
 
     void Init() override;
-    void Process(const int key, const int trriger) override;
+    void Process(const int key, const int trigger) override;
     void Draw() override;
 
     void SetDamage();
 
-    int GetSpeed() const { return spd; }
+    [[nodiscard]] int GetSpeed() const { return spd; }
     void SetSpeed(const int spd) { this->spd = spd; }
 
-    int GetLife() const { return life; }
+    [[nodiscard]] int GetLife() const { return life; }
     void SetLife(const int life) { this->life = life; }
 
-    std::vector<Bullet*>& GetBullet() { return bullet; }
+    [[nodiscard]] std::vector<Bullet*>& GetBullet() { return bullet; }
+    [[nodiscard]] const std::vector<Bullet*>& GetBullet() const { return bullet; }
 
 private:
     void AddPlayerBullet();
 
-    int spd;
-    int life;
+    int spd{ 0 };
+    int life{ 0 };
 
-    int screenWidth;
-    int screenHeight;
+    int screenWidth{ 0 };
+    int screenHeight{ 0 };
 
     std::vector<Bullet*> bullet;
 };

@@ -5,18 +5,15 @@ constexpr auto BULLET_HEIGHT = 16;
 constexpr auto BULLET_SPEED_Y = 16;
 
 Bullet::Bullet(const int cgHandle) : ObjectBase() {
-    use = false;
-    spd_y = 0;
-
     this->cgHandle = cgHandle;
 }
 
 Bullet::~Bullet() {}
 
-void Bullet::Process(const int key, const int trriger) {
+void Bullet::Process([[maybe_unused]] const int key, [[maybe_unused]] const int trigger) {
     // MovePlayerBullet に相当
     // この弾は使用中か？
-    if (use == true) {
+    if (use) {
         // 画面上方向へ移動
         y -= spd_y;
 
@@ -29,7 +26,7 @@ void Bullet::Process(const int key, const int trriger) {
 
 void Bullet::Draw() {
     // この弾は使用中か？
-    if (use == false) {
+    if (!use) {
         return;
     }
 

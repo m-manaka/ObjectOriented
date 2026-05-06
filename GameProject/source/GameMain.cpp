@@ -20,10 +20,6 @@ constexpr auto PauseText = _T("PAUSE");
 constexpr auto SaveText = _T("Save");
 constexpr auto LoadText = _T("Load");
 
-const auto PauseColor = DW::GetColor(0, 0, 255);
-const auto MenuColor = DW::GetColor(128, 128, 128);
-const auto SelectColor = DW::GetColor(196, 196, 64);
-
 // 基底クラスの情報を保存する
 // 基底クラスという事は、全クラスで共通なので処理を関数化
 void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
@@ -38,10 +34,10 @@ void SaveObjectBase(nlohmann::json& json, const ObjectBase* objectBase) {
 void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
     int x, y, w, h;
 
-    json.at(_T("x")).get_to(x);
-    json.at(_T("y")).get_to(y);
-    json.at(_T("w")).get_to(w);
-    json.at(_T("h")).get_to(h);
+    json.at("x").get_to(x);
+    json.at("y").get_to(y);
+    json.at("w").get_to(w);
+    json.at("h").get_to(h);
 
     objectBase->SetX(x);
     objectBase->SetY(y);
@@ -49,17 +45,10 @@ void LoadObjectBase(nlohmann::json& json, ObjectBase* objectBase) {
     objectBase->SetH(h);
 }
 
-GameMain::GameMain() {
-    inputKey = 0;
-    inputTrg = 0;
-    cgBullet = -1;
-    cgEnemy = -1;
-    isPause = false;
-    isSelectSave = true;
-}
+GameMain::GameMain() = default;
 
 GameMain::~GameMain() {
-    for (auto& object : objectList) {
+    for (auto* object : objectList) {
         object->SetCgHandleDeleteLock(false);
         delete object;
     }
@@ -104,7 +93,7 @@ void GameMain::Init() {
     // 範囲 for 文
     // 受ける変数は auto で、右辺の型に合わせて変数の型を自動にすると便利
     // & は C++ の参照渡し。参照渡しを使うと、配列の要素を直接操作できる
-    for (auto& object : objectList) {
+    for (auto* object : objectList) {
         // この動作がポリモーフィズムの特徴
         object->Init(); // new したクラスの Init メソッドになる
     }
@@ -156,7 +145,7 @@ bool GameMain::Process() {
     }
 
     // この動作がポリモーフィズムの特徴
-    for (auto& object : objectList) {
+    for (auto* object : objectList) {
         object->Process(inputKey, inputTrg); // new したクラスの Process メソッドになる
     }
 
@@ -171,11 +160,15 @@ bool GameMain::Process() {
 
 void GameMain::Draw() {
     // この動作がポリモーフィズムの特徴
-    for (auto& object : objectList) {
+    for (auto* object : objectList) {
         object->Draw(); // new したクラスの Draw メソッドになる
     }
 
     if (isPause) {
+        static const auto PauseColor = DW::GetColor(0, 0, 255);
+        static const auto MenuColor = DW::GetColor(128, 128, 128);
+        static const auto SelectColor = DW::GetColor(196, 196, 64);
+
         auto orignalSize = DW::GetFontSize();
 
         DW::SetFontSize(64);
@@ -209,10 +202,10 @@ bool GameMain::IsHitBox(const int x1,
 }
 
 Player* GameMain::GetPlayer() const {
-    for (auto& object : objectList) {
+    for (auto* object : objectList) {
         // C++ の機能である dynamic_cast
         // で、基底クラスのポインタを派生クラスのポインタに変換する
-        auto player = dynamic_cast<Player*>(object);
+        auto* player = dynamic_cast<Player*>(object);
 
         if (player != nullptr) {
             return player;
@@ -223,10 +216,10 @@ Player* GameMain::GetPlayer() const {
 }
 
 Score* GameMain::GetScore() const {
-    for (auto& object : objectList) {
+    for (auto* object : objectList) {
         // C++ の機能である dynamic_cast
         // で、基底クラスのポインタを派生クラスのポインタに変換する
-        auto score = dynamic_cast<Score*>(object);
+        auto* score = dynamic_cast<Score*>(object);
 
         if (score != nullptr) {
             return score;
@@ -241,22 +234,22 @@ void GameMain::HitCheckPlayerEnemy(Player* player) const {
         return;
     }
 
-    for (auto& object : objectList) {
-        auto enemy = dynamic_cast<Enemy*>(object);
+    for (auto* object : objectList) {
+        auto* enemy = dynamic_cast<Enemy*>(object);
 
         if (enemy == nullptr) {
             continue;
         }
 
         // この敵は使用中か？
-        if (enemy->IsUse() == false) {
+        if (!enemy->IsUse()) {
             continue;
         }
 
         // プレイヤーと敵の当たり判定
         if (IsHitBox(player->GetX(), player->GetY(), player->GetW(), player->GetH(), // プレイヤーを囲むBox
                      enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH()      // 敵[i]を囲むBox
-                     ) != false) {
+                     )) {
             // 当たった
             enemy->SetUse(false);  // この敵を消す
             player->SetDamage();
@@ -271,27 +264,27 @@ void GameMain::HitCheckEnemyPlayerBullet(Player* player) const {
         return;
     }
 
-    for (auto& object : objectList) {
-        auto enemy = dynamic_cast<Enemy*>(object);
+    for (auto* object : objectList) {
+        auto* enemy = dynamic_cast<Enemy*>(object);
 
         if (enemy == nullptr) {
             continue;
         }
 
         // この敵は使用中か？
-        if (enemy->IsUse() == false) {
+        if (!enemy->IsUse()) {
             continue;
         }
 
-        for (auto& bt : player->GetBullet()) {
+        for (auto* bt : player->GetBullet()) {
             // この弾は使用中か？
-            if (bt->IsUse() == false) {
+            if (!bt->IsUse()) {
                 continue;
             }
 
             if (IsHitBox(enemy->GetX(), enemy->GetY(), enemy->GetW(), enemy->GetH(), // 敵[i]を囲むBox
                          bt->GetX(), bt->GetY(), bt->GetW(), bt->GetH()              // 弾[j]を囲むBox
-                         ) != false) {
+                         )) {
                 // 当たった
                 enemy->SetUse(false);  // この敵を消す
                 bt->SetUse(false);     // 弾を消す
@@ -304,8 +297,8 @@ void GameMain::HitCheckEnemyPlayerBullet(Player* player) const {
 void GameMain::Save() const {
     std::vector<Enemy*> enemyList;
 
-    for (auto& object : objectList) {
-        auto player = dynamic_cast<Player*>(object);
+    for (auto* object : objectList) {
+        auto* player = dynamic_cast<Player*>(object);
 
         if (player != nullptr) {
             SavePlayer(player);
@@ -317,7 +310,7 @@ void GameMain::Save() const {
             enemyList.emplace_back(enemy);
         }
 
-        auto score = dynamic_cast<Score*>(object);
+        auto* score = dynamic_cast<Score*>(object);
 
         if (score != nullptr) {
             SaveScore(score);
@@ -334,32 +327,29 @@ void GameMain::SavePlayer(const Player* player) const {
 
     SaveObjectBase(playerJson, player);
 
-    playerJson[_T("spd")] = player->GetSpeed();
-    playerJson[_T("life")] = player->GetLife();
-    playerJson[_T("screenWidth")] = DISP_W;
-    playerJson[_T("screenHeight")] = DISP_H;
+    playerJson["spd"] = player->GetSpeed();
+    playerJson["life"] = player->GetLife();
+    playerJson["screenWidth"] = DISP_W;
+    playerJson["screenHeight"] = DISP_H;
 
     nlohmann::json playerBulletListJson;
 
-    auto getBulletPlayer = const_cast<Player*>(player);
-
-    for (const auto& bullet : getBulletPlayer->GetBullet()) {
+    for (const auto* bullet : player->GetBullet()) {
         nlohmann::json bulletJson;
 
         SaveObjectBase(bulletJson, bullet);
 
-        bulletJson[_T("use")] = bullet->IsUse();
-        bulletJson[_T("spd_y")] = bullet->GetSpeedY();
+        bulletJson["use"] = bullet->IsUse();
+        bulletJson["spd_y"] = bullet->GetSpeedY();
 
         playerBulletListJson.push_back(bulletJson);
     }
 
-    playerJson[_T("bullet")] = playerBulletListJson;
+    playerJson["bullet"] = playerBulletListJson;
 
     std::ofstream ofs(_T("save/player.json"), std::ios::out | std::ios::trunc);
 
     ofs << playerJson.dump(4);
-    ofs.close();
 }
 
 void GameMain::SaveScore(const Score* score) const {
@@ -367,27 +357,26 @@ void GameMain::SaveScore(const Score* score) const {
 
     SaveObjectBase(scoreJson, score);
 
-    scoreJson[_T("score")] = score->GetScore();
+    scoreJson["score"] = score->GetScore();
 
     std::ofstream ofs(_T("save/score.json"), std::ios::out | std::ios::trunc);
 
     ofs << scoreJson.dump(4);
-    ofs.close();
 }
 
 void GameMain::SaveEnemyList(const std::vector<Enemy*>& enemyList) const {
     nlohmann::json enemyListJson;
 
-    for (const auto& enemy : enemyList) {
+    for (const auto* enemy : enemyList) {
         nlohmann::json enemyJson;
 
         SaveObjectBase(enemyJson, enemy);
 
-        enemyJson[_T("use")] = enemy->IsUse();
-        enemyJson[_T("spd_x")] = enemy->GetSpeedX();
-        enemyJson[_T("spd_y")] = enemy->GetSpeedY();
-        enemyJson[_T("screenWidth")] = DISP_W;
-        enemyJson[_T("screenHeight")] = DISP_H;
+        enemyJson["use"] = enemy->IsUse();
+        enemyJson["spd_x"] = enemy->GetSpeedX();
+        enemyJson["spd_y"] = enemy->GetSpeedY();
+        enemyJson["screenWidth"] = DISP_W;
+        enemyJson["screenHeight"] = DISP_H;
 
         enemyListJson.push_back(enemyJson);
     }
@@ -396,18 +385,16 @@ void GameMain::SaveEnemyList(const std::vector<Enemy*>& enemyList) const {
                       std::ios::out | std::ios::trunc);
 
     ofs << enemyListJson.dump(4);
-    ofs.close();
 }
 
 void GameMain::DeleteOldObjects() {
-    auto player = GetPlayer();
+    auto* player = GetPlayer();
 
     if (player != nullptr) {
         // objectList から現在の Player を削除
-        auto remove = std::remove(objectList.begin(), objectList.end(), player);
-        objectList.erase(remove, objectList.end());
+        std::erase(objectList, static_cast<ObjectBase*>(player));
 
-        for (auto& bullet : player->GetBullet()) {
+        for (auto* bullet : player->GetBullet()) {
             bullet->SetCgHandleDeleteLock(true);
         }
 
@@ -415,28 +402,24 @@ void GameMain::DeleteOldObjects() {
         delete player;
     }
 
-    auto removeList = std::remove_if(
-        objectList.begin(), objectList.end(), [](ObjectBase* object) {
-            auto enemy = dynamic_cast<Enemy*>(object);
+    std::erase_if(objectList, [](ObjectBase* object) {
+        auto* enemy = dynamic_cast<Enemy*>(object);
 
-            if (enemy != nullptr) {
-                enemy->SetCgHandleDeleteLock(true);
-                delete enemy;
+        if (enemy != nullptr) {
+            enemy->SetCgHandleDeleteLock(true);
+            delete enemy;
 
-                return true;
-            }
+            return true;
+        }
 
-            return false;
-        });
+        return false;
+    });
 
-    objectList.erase(removeList, objectList.end());
-
-    auto score = GetScore();
+    auto* score = GetScore();
 
     if (score != nullptr) {
         // objectList から現在の Score を削除
-        auto remove = std::remove(objectList.begin(), objectList.end(), score);
-        objectList.erase(remove, objectList.end());
+        std::erase(objectList, static_cast<ObjectBase*>(score));
 
         score->SetCgHandleDeleteLock(true);
         delete score;
@@ -444,7 +427,7 @@ void GameMain::DeleteOldObjects() {
 }
 
 void GameMain::Load() {
-    auto player = LoadPlayer();
+    auto* player = LoadPlayer();
 
     if (player == nullptr) {
         return; // Player のセーブデータがない(以降の処理もしない)
@@ -452,9 +435,9 @@ void GameMain::Load() {
 
     auto enemyList = LoadEnemyList();
 
-    auto score = LoadScore();
+    auto* score = LoadScore();
 
-    if (enemyList.size() > 0 && score != nullptr) {
+    if (!enemyList.empty() && score != nullptr) {
         DeleteOldObjects();
 
         // SetupScore と同等の処理
@@ -462,7 +445,7 @@ void GameMain::Load() {
 
         objectList.emplace_back(player);
 
-        for (auto& enemy : enemyList) {
+        for (auto* enemy : enemyList) {
             objectList.emplace_back(enemy);
         }
 
@@ -489,25 +472,25 @@ Player* GameMain::LoadPlayer() const {
 
     int spd, life;
 
-    playerJson.at(_T("spd")).get_to(spd);
-    playerJson.at(_T("life")).get_to(life);
+    playerJson.at("spd").get_to(spd);
+    playerJson.at("life").get_to(life);
 
     newPlayer->SetSpeed(spd);
     newPlayer->SetLife(life);
 
     auto count = 0;
-    auto bulletListJson = playerJson.at(_T("bullet"));
+    auto bulletListJson = playerJson.at("bullet");
 
     for (auto& bulletJson : bulletListJson) {
-        auto bullet = newPlayer->GetBullet()[count];
+        auto* bullet = newPlayer->GetBullet()[count];
 
         LoadObjectBase(bulletJson, bullet);
 
         bool use;
         int spd_y;
 
-        bulletJson.at(_T("use")).get_to(use);
-        bulletJson.at(_T("spd_y")).get_to(spd_y);
+        bulletJson.at("use").get_to(use);
+        bulletJson.at("spd_y").get_to(spd_y);
 
         bullet->SetUse(use);
         bullet->SetSpeedY(spd_y);
@@ -531,16 +514,16 @@ std::vector<Enemy*> GameMain::LoadEnemyList() const {
     ifsEnemyList >> enemyListJson;
 
     for (auto& enemyJson : enemyListJson) {
-        auto newEnemy = new Enemy(DISP_W, DISP_H, cgEnemy);
+        auto* newEnemy = new Enemy(DISP_W, DISP_H, cgEnemy);
 
         LoadObjectBase(enemyJson, newEnemy);
 
         bool use;
         int spd_x, spd_y;
 
-        enemyJson.at(_T("use")).get_to(use);
-        enemyJson.at(_T("spd_x")).get_to(spd_x);
-        enemyJson.at(_T("spd_y")).get_to(spd_y);
+        enemyJson.at("use").get_to(use);
+        enemyJson.at("spd_x").get_to(spd_x);
+        enemyJson.at("spd_y").get_to(spd_y);
 
         newEnemy->SetUse(use);
         newEnemy->SetSpeedX(spd_x);
@@ -569,7 +552,7 @@ Score* GameMain::LoadScore() const {
 
     int score;
 
-    scoreJson.at(_T("score")).get_to(score);
+    scoreJson.at("score").get_to(score);
 
     newScore->AddScore(score);
 

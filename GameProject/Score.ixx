@@ -2,7 +2,7 @@ export module Score;
 import ObjectBase;
 import Player;
 
-export class Score : public ObjectBase {
+export class Score final : public ObjectBase {
 public:
     Score();
     virtual ~Score();
@@ -10,10 +10,10 @@ public:
     void Draw() override;
 
     void AddScore(const int score) { this->score += score; }
-    int GetScore() const { return score; }
+    [[nodiscard]] int GetScore() const { return score; }
     void SetPlayer(Player* player) { this->player = player; }
 
 private:
-    int score;
-    Player* player;
+    int score{ 0 };
+    Player* player{ nullptr };
 };

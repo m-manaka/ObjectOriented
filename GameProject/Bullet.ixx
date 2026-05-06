@@ -1,23 +1,23 @@
 export module Bullet;
 import ObjectBase;
 
-export class Bullet : public ObjectBase {
+export class Bullet final : public ObjectBase {
 public:
     Bullet(const int cgHandle);
     virtual ~Bullet();
 
-    void Process(const int key, const int trriger) override;
+    void Process(const int key, const int trigger) override;
     void Draw() override;
 
     void Set(const int x, const int y);
 
-    bool IsUse() const { return use; }
+    [[nodiscard]] bool IsUse() const { return use; }
     void SetUse(const bool use) { this->use = use; }
 
-    int GetSpeedY() const { return spd_y; }
+    [[nodiscard]] int GetSpeedY() const { return spd_y; }
     void SetSpeedY(const int spd_y) { this->spd_y = spd_y; }
 
 private:
-    bool use;
-    int spd_y;
+    bool use{ false };
+    int spd_y{ 0 };
 };
